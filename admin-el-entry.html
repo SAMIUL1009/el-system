@@ -86,10 +86,8 @@ const defaultWorkers = {
   "700286":"KAZI MASUD"
 };
 
-// 🔹 Load from storage or init
+// 🔹 Load from LocalStorage or init with defaults
 let workers = JSON.parse(localStorage.getItem("workers") || "{}");
-
-// 🔹 Auto add default workers (first time)
 for(let id in defaultWorkers){
     if(!workers[id]){
         workers[id] = {
