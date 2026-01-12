@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -88,7 +87,31 @@ td,th{
 </div>
 
 <script>
+// Default Worker List
+let defaultWorkers = {
+  "700074":"RAKIBUL SK",
+  "700087":"TUSHAR PAL",
+  "700271":"AZIMUDDIN SK",
+  "700274":"ARUP BHASKAR",
+  "700278":"IMMAMUDDIN SK",
+  "700279":"SHAFFIUDDIN SK",
+  "700282":"BIDHAN CH. MONDAL",
+  "700283":"ANUP MONDAL",
+  "700284":"SAMJAN SK",
+  "700286":"KAZI MASUD"
+};
+
+// Load from LocalStorage or init defaults
 let workers = JSON.parse(localStorage.getItem("workers") || "{}");
+for(let id in defaultWorkers){
+    if(!workers[id]){
+        workers[id] = {
+            name: defaultWorkers[id],
+            total: 24,
+            months: {}
+        };
+    }
+}
 
 function viewEL(){
     let id = wid.value.trim();
