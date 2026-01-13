@@ -1,265 +1,1155 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EL System</title>
-
-<style>
-body{
-    font-family:Arial;
-    background:#f2f2f2;
-    margin:0;
-    font-size:12px;
-}
-.box{
-    max-width:420px;
-    background:#fff;
-    margin:10px auto;
-    padding:8px;
-    border:2px solid #000;
-}
-h2{text-align:center;font-size:15px;margin:6px 0;}
-input,select,button{
-    width:100%;
-    padding:6px;
-    margin:4px 0;
-    font-size:12px;
-}
-button{
-    background:#27ae60;
-    color:#fff;
-    border:none;
-}
-.blue{background:#2980b9;}
-.red{background:#c0392b;}
-.hide{display:none;}
-.msg{color:red;text-align:center;}
-.tab{display:flex;gap:5px;}
-.tab button{width:50%;}
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:6px;
-}
-td,th{
-    border:1px solid #000;
-    padding:4px;
-    text-align:center;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EL System | Earned Leave Management</title>
+    <style>
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #219653;
+            --secondary: #2980b9;
+            --danger: #c0392b;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --border: #bdc3c7;
+            --gray: #95a5a6;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: var(--dark);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .connection-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .status-connected {
+            background: var(--primary);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-disconnected {
+            background: var(--danger);
+        }
+        
+        .status-connecting {
+            background: var(--warning);
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .main-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        .tab-header {
+            display: flex;
+            background: var(--light);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--dark);
+        }
+        
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.7);
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            padding: 25px;
+        }
+        
+        .tab-pane {
+            display: none;
+        }
+        
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, select, button {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+        }
+        
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: #2471a3;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: #a93226;
+        }
+        
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #90caf9;
+        }
+        
+        .locked {
+            background: #f5f5f5;
+            color: #999;
+            cursor: not-allowed !important;
+        }
+        
+        .locked:hover {
+            background: #f5f5f5 !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-card.total {
+            border-left-color: var(--secondary);
+        }
+        
+        .stat-card.used {
+            border-left-color: var(--warning);
+        }
+        
+        .stat-card.remaining {
+            border-left-color: var(--primary);
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 5px 0;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .month-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .flex-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--gray);
+            font-size: 13px;
+        }
+        
+        .hr-text {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: var(--gray);
+        }
+        
+        .hr-text::before,
+        .hr-text::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        
+        .hr-text span {
+            padding: 0 15px;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: auto !important;
+            padding: 8px 15px !important;
+            background: var(--danger) !important;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+        }
+        
+        .loading::after {
+            content: "...";
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-box, .month-input-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .flex-buttons {
+                flex-direction: column;
+            }
+            
+            .tab-header {
+                flex-direction: column;
+            }
+            
+            .tab-content {
+                padding: 15px;
+            }
+            
+            .logout-btn {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100% !important;
+                margin-top: 15px;
+            }
+            
+            .connection-status {
+                position: relative;
+                top: 0;
+                right: 0;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+        
+        .highlight {
+            background: #e1f5fe !important;
+            font-weight: 600;
+        }
+        
+        .admin-only {
+            position: relative;
+        }
+        
+        .lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .lock-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: var(--gray);
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <header>
+            <button id="logoutBtn" class="logout-btn" style="display: none;">Logout Admin</button>
+            <h1>EL System</h1>
+            <p class="subtitle">Earned Leave Management System</p>
+            <div class="connection-status">
+                <div class="status-dot status-connecting" id="statusDot"></div>
+                <span id="statusText">Connecting to database...</span>
+            </div>
+        </header>
+        
+        <div class="main-box">
+            <div class="tab-header">
+                <button class="tab-btn active" data-tab="adminLogin">Admin Login</button>
+                <button class="tab-btn" data-tab="adminPanel" id="adminPanelTab">Admin Panel</button>
+                <button class="tab-btn" data-tab="workerPanel">Worker Panel</button>
+            </div>
+            
+            <div class="tab-content">
+                <!-- Admin Login Tab -->
+                <div id="adminLogin" class="tab-pane active">
+                    <h2>Admin Login</h2>
+                    <div class="form-group">
+                        <label for="adminPassword">Admin Password</label>
+                        <input type="password" id="adminPassword" placeholder="Enter admin password">
+                    </div>
+                    <button id="loginBtn" class="btn-secondary">Login as Admin</button>
+                    <div id="loginMessage" class="message"></div>
+                    
+                    <div class="hr-text"><span>Default Admin Password: 1234</span></div>
+                    
+                    <div class="info message">
+                        <strong>Note:</strong> All data is synchronized in real-time across all devices using Firebase.
+                    </div>
+                </div>
+                
+                <!-- Admin Panel Tab -->
+                <div id="adminPanel" class="tab-pane admin-only">
+                    <div class="lock-overlay" id="adminLockOverlay">
+                        <div class="lock-icon">🔒</div>
+                        <h3>Admin Panel Locked</h3>
+                        <p>Please login as admin to access this panel</p>
+                        <button onclick="switchToLoginTab()" class="btn-secondary" style="margin-top: 15px;">Go to Login</button>
+                    </div>
+                    
+                    <h2>Admin Panel</h2>
+                    
+                    <div class="form-group">
+                        <label for="workerSelect">Select Worker</label>
+                        <select id="workerSelect">
+                            <option value="">Loading workers...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="totalEL">Total EL (Days per Year)</label>
+                        <input type="number" id="totalEL" placeholder="Total EL days" min="0" max="60" value="24">
+                    </div>
+                    
+                    <button id="saveWorkerBtn" class="btn-secondary" disabled>Update Worker Total EL</button>
+                    
+                    <div class="hr-text"><span>Add Monthly EL</span></div>
+                    
+                    <div class="form-group">
+                        <label for="monthWorkerSelect">Select Worker for Monthly EL</label>
+                        <select id="monthWorkerSelect">
+                            <option value="">Loading workers...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="month-input-group">
+                        <div class="form-group">
+                            <label for="monthInput">Month (e.g. Jan-2025)</label>
+                            <input type="text" id="monthInput" placeholder="Month-Year">
+                        </div>
+                        <div class="form-group">
+                            <label for="elTaken">EL Taken (Days)</label>
+                            <input type="number" id="elTaken" placeholder="Days taken" min="0" max="31">
+                        </div>
+                    </div>
+                    
+                    <button id="addELBtn" class="btn-secondary" disabled>Add Monthly EL Record</button>
+                    
+                    <div class="hr-text"><span>Delete Wrong EL Records</span></div>
+                    
+                    <div class="form-group">
+                        <label for="deleteWorkerSelect">Select Worker to Delete EL</label>
+                        <select id="deleteWorkerSelect">
+                            <option value="">Loading workers...</option>
+                        </select>
+                    </div>
+                    
+                    <button id="loadELBtn" class="btn-secondary" disabled>Load Worker EL Records</button>
+                    
+                    <table id="deleteTable">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>EL Days</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deleteRows">
+                            <tr><td colspan="3" style="text-align: center;">Select a worker and click "Load Worker EL Records"</td></tr>
+                        </tbody>
+                    </table>
+                    
+                    <div id="adminMessage" class="message"></div>
+                </div>
+                
+                <!-- Worker Panel Tab -->
+                <div id="workerPanel" class="tab-pane">
+                    <h2>Worker EL Status</h2>
+                    
+                    <div class="form-group">
+                        <label for="workerIdInput">Enter Worker ID</label>
+                        <input type="text" id="workerIdInput" placeholder="e.g. 700074">
+                    </div>
+                    
+                    <button id="viewELBtn" class="btn-secondary">View EL Status</button>
+                    
+                    <div id="workerMessage" class="message"></div>
+                    
+                    <div id="resultSection" style="display: none;">
+                        <div class="stats-box">
+                            <div class="stat-card">
+                                <div class="stat-label">Worker Name</div>
+                                <div class="stat-value" id="workerName">-</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Worker ID</div>
+                                <div class="stat-value" id="workerIdDisplay">-</div>
+                            </div>
+                            <div class="stat-card total">
+                                <div class="stat-label">Total EL</div>
+                                <div class="stat-value" id="totalELDisplay">-</div>
+                            </div>
+                            <div class="stat-card used">
+                                <div class="stat-label">Used EL</div>
+                                <div class="stat-value" id="usedELDisplay">-</div>
+                            </div>
+                            <div class="stat-card remaining">
+                                <div class="stat-label">Remaining EL</div>
+                                <div class="stat-value" id="remainingELDisplay">-</div>
+                            </div>
+                        </div>
+                        
+                        <h3>Monthly EL Records</h3>
+                        <table id="elRecordsTable">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>EL Days</th>
+                                </tr>
+                            </thead>
+                            <tbody id="elRecordsRows">
+                                <!-- Rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>EL System &copy; 2025 | Earned Leave Management</p>
+            <p>Powered by Firebase | Data synchronized in real-time</p>
+        </div>
+    </div>
 
-<div class="box">
-<h2>EL System</h2>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // ================= FIREBASE CONFIGURATION =================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getDatabase, ref, set, get, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 
-<div class="tab">
-    <button onclick="openTab('adminLogin')">Admin</button>
-    <button onclick="openTab('worker')">Worker</button>
-</div>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKbn9mKEzO1j1sg6JMvsFn8k5Ebwj3DxU",
+            authDomain: "el-system-9d27b.firebaseapp.com",
+            projectId: "el-system-9d27b",
+            storageBucket: "el-system-9d27b.firebasestorage.app",
+            messagingSenderId: "340011119470",
+            appId: "1:340011119470:web:cfa6e1b1616d934b80c77f",
+            measurementId: "G-DMTRB15KD2"
+        };
 
-<!-- ADMIN LOGIN -->
-<div id="adminLogin" class="hide">
-    <h2>Admin Login</h2>
-    <input type="password" id="adminPass" placeholder="Admin Password">
-    <button onclick="loginAdmin()">Login</button>
-    <p id="loginMsg" class="msg"></p>
-</div>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel" class="hide">
+        // ================= CONFIG =================
+        const ADMIN_PASSWORD = "1234";
+        
+        // Default Workers (PERMANENT)
+        const defaultWorkers = {
+            "700074": "RAKIBUL SK",
+            "700087": "TUSHAR PAL",
+            "700271": "AZIMUDDIN SK",
+            "700274": "ARUP BHASKAR",
+            "700278": "IMMAMUDDIN SK",
+            "700279": "SHAFFIUDDIN SK",
+            "700282": "BIDHAN CH. MONDAL",
+            "700283": "ANUP MONDAL",
+            "700284": "SAMJAN SK",
+            "700286": "KAZI MASUD"
+        };
 
-<h2>Admin Panel</h2>
+        // ================= GLOBAL VARIABLES =================
+        let isAdminLoggedIn = false;
+        let workers = {};
+        let isDatabaseConnected = false;
 
-<select id="wid"></select>
-<input id="total" value="24" placeholder="Total EL (Year)">
-<button onclick="saveWorker()">Save Worker</button>
-
-<hr>
-
-<h2>Add Monthly EL</h2>
-<select id="mid"></select>
-<input id="month" placeholder="Month (e.g. Jan-2025)">
-<input id="el" placeholder="EL Taken">
-<button class="blue" onclick="addEL()">Save EL</button>
-
-<hr>
-
-<h2>Delete Wrong EL</h2>
-<select id="delWid"></select>
-<button onclick="loadWorkerEL()">Load EL</button>
-
-<table>
-<tr><th>Month</th><th>EL</th><th>Action</th></tr>
-<tbody id="delRows"></tbody>
-</table>
-
-<p id="msg"></p>
-</div>
-
-<!-- WORKER PANEL -->
-<div id="worker" class="hide">
-<h2>Worker EL Status</h2>
-
-<input id="widW" placeholder="Enter Worker ID">
-<button onclick="viewEL()">View EL</button>
-
-<div id="result" class="hide">
-<table>
-<tr><td>Name</td><td id="name"></td></tr>
-<tr><td>ID</td><td id="widShow"></td></tr>
-<tr><td>Total EL</td><td id="totalW"></td></tr>
-<tr><td>Used EL</td><td id="used"></td></tr>
-<tr><td><b>Remaining</b></td><td id="remain"></td></tr>
-</table>
-
-<table>
-<tr><th>Month</th><th>EL</th></tr>
-<tbody id="rows"></tbody>
-</table>
-</div>
-
-<p id="msgW" class="msg"></p>
-</div>
-
-</div>
-
-<script>
-// ================= CONFIG =================
-const ADMIN_PASSWORD = "1234";
-
-// Default Workers (PERMANENT)
-const defaultWorkers = {
- "700074":"RAKIBUL SK",
- "700087":"TUSHAR PAL",
- "700271":"AZIMUDDIN SK",
- "700274":"ARUP BHASKAR",
- "700278":"IMMAMUDDIN SK",
- "700279":"SHAFFIUDDIN SK",
- "700282":"BIDHAN CH. MONDAL",
- "700283":"ANUP MONDAL",
- "700284":"SAMJAN SK",
- "700286":"KAZI MASUD"
-};
-
-// ================= LOAD & AUTO FIX =================
-let workers = JSON.parse(localStorage.getItem("workers") || "{}");
-
-for(let id in defaultWorkers){
-    if(!workers[id]){
-        workers[id] = {name:defaultWorkers[id], total:24, months:{}};
-    }else{
-        if(!workers[id].name){
-            workers[id].name = defaultWorkers[id];
+        // ================= DATABASE FUNCTIONS =================
+        function updateConnectionStatus(connected) {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            
+            if (connected) {
+                isDatabaseConnected = true;
+                statusDot.className = 'status-dot status-connected';
+                statusText.textContent = 'Connected to database';
+                
+                // Enable admin buttons
+                document.getElementById('saveWorkerBtn').disabled = false;
+                document.getElementById('addELBtn').disabled = false;
+                document.getElementById('loadELBtn').disabled = false;
+            } else {
+                isDatabaseConnected = false;
+                statusDot.className = 'status-dot status-disconnected';
+                statusText.textContent = 'Disconnected from database';
+                
+                // Disable admin buttons
+                document.getElementById('saveWorkerBtn').disabled = true;
+                document.getElementById('addELBtn').disabled = true;
+                document.getElementById('loadELBtn').disabled = true;
+            }
         }
-        if(!workers[id].months){
-            workers[id].months = {};
+
+        // Initialize database connection
+        const connectedRef = ref(database, ".info/connected");
+        onValue(connectedRef, (snap) => {
+            updateConnectionStatus(snap.val() === true);
+        });
+
+        // Load workers from Firebase
+        async function loadWorkersFromFirebase() {
+            try {
+                const workersRef = ref(database, 'workers');
+                const snapshot = await get(workersRef);
+                
+                if (snapshot.exists()) {
+                    workers = snapshot.val();
+                } else {
+                    // Initialize with default workers
+                    workers = {};
+                    for(let id in defaultWorkers) {
+                        workers[id] = {
+                            name: defaultWorkers[id],
+                            total: 24,
+                            months: {}
+                        };
+                    }
+                    // Save to Firebase
+                    await set(workersRef, workers);
+                }
+                
+                populateDropdowns();
+                return workers;
+            } catch (error) {
+                console.error("Error loading workers:", error);
+                showMessage('adminMessage', 'Error loading workers from database', 'error');
+                return {};
+            }
         }
-        if(!workers[id].total){
-            workers[id].total = 24;
+
+        // Save worker to Firebase
+        async function saveWorkerToFirebase(workerId, workerData) {
+            try {
+                const workerRef = ref(database, `workers/${workerId}`);
+                await set(workerRef, workerData);
+                return true;
+            } catch (error) {
+                console.error("Error saving worker:", error);
+                return false;
+            }
         }
-    }
-}
 
-localStorage.setItem("workers",JSON.stringify(workers));
+        // Update worker data in Firebase
+        async function updateWorkerInFirebase(workerId, updates) {
+            try {
+                const workerRef = ref(database, `workers/${workerId}`);
+                await update(workerRef, updates);
+                return true;
+            } catch (error) {
+                console.error("Error updating worker:", error);
+                return false;
+            }
+        }
 
-// ================= INIT =================
-function loadDropdowns(){
-    wid.innerHTML = mid.innerHTML = delWid.innerHTML = "";
-    for(let id in workers){
-        let t = id+" - "+workers[id].name;
-        wid.innerHTML += `<option value="${id}">${t}</option>`;
-        mid.innerHTML += `<option value="${id}">${t}</option>`;
-        delWid.innerHTML += `<option value="${id}">${t}</option>`;
-    }
-}
-loadDropdowns();
+        // ================= AUTHENTICATION FUNCTIONS =================
+        function updateAdminPanelAccess() {
+            const adminPanelTab = document.getElementById('adminPanelTab');
+            const adminLockOverlay = document.getElementById('adminLockOverlay');
+            const adminPanel = document.getElementById('adminPanel');
+            
+            if(isAdminLoggedIn) {
+                // Enable admin panel tab
+                adminPanelTab.classList.remove('locked');
+                adminLockOverlay.style.display = 'none';
+                
+                // Show logout button
+                document.getElementById('logoutBtn').style.display = 'block';
+            } else {
+                // Disable admin panel tab
+                adminPanelTab.classList.add('locked');
+                adminLockOverlay.style.display = 'flex';
+                
+                // Hide logout button
+                document.getElementById('logoutBtn').style.display = 'none';
+            }
+        }
+        
+        function switchToLoginTab() {
+            document.querySelector('[data-tab="adminLogin"]').click();
+        }
 
-// ================= TAB =================
-function openTab(t){
-    adminLogin.classList.add("hide");
-    adminPanel.classList.add("hide");
-    worker.classList.add("hide");
-    document.getElementById(t).classList.remove("hide");
-}
+        // ================= UI FUNCTIONS =================
+        function populateDropdowns() {
+            const workerSelect = document.getElementById('workerSelect');
+            const monthWorkerSelect = document.getElementById('monthWorkerSelect');
+            const deleteWorkerSelect = document.getElementById('deleteWorkerSelect');
+            
+            // Clear existing options
+            workerSelect.innerHTML = '';
+            monthWorkerSelect.innerHTML = '';
+            deleteWorkerSelect.innerHTML = '';
+            
+            // Add options for each worker
+            for(let id in workers) {
+                const optionText = `${id} - ${workers[id].name}`;
+                const option = `<option value="${id}">${optionText}</option>`;
+                
+                workerSelect.innerHTML += option;
+                monthWorkerSelect.innerHTML += option;
+                deleteWorkerSelect.innerHTML += option;
+            }
+        }
 
-// ================= ADMIN LOGIN =================
-function loginAdmin(){
-    if(adminPass.value === ADMIN_PASSWORD){
-        adminLogin.classList.add("hide");
-        adminPanel.classList.remove("hide");
-        loginMsg.innerText="";
-    }else{
-        loginMsg.innerText="Wrong Password";
-    }
-}
+        function showMessage(elementId, message, type = 'info') {
+            const messageDiv = document.getElementById(elementId);
+            messageDiv.textContent = message;
+            messageDiv.className = `message ${type}`;
+            
+            // Clear message after 3 seconds
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = 'message';
+            }, 3000);
+        }
 
-// ================= ADMIN =================
-function saveWorker(){
-    let id = wid.value;
-    workers[id].total = Number(total.value)||0;
-    localStorage.setItem("workers",JSON.stringify(workers));
-    msg.innerText="Worker Updated";
-}
+        // ================= TAB MANAGEMENT =================
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Don't allow clicking on admin panel tab if not logged in
+                const tabId = btn.getAttribute('data-tab');
+                
+                if(tabId === 'adminPanel' && !isAdminLoggedIn) {
+                    showMessage('loginMessage', "Please login first to access Admin Panel", 'error');
+                    
+                    // Switch to login tab instead
+                    document.querySelector('[data-tab="adminLogin"]').click();
+                    return;
+                }
+                
+                // Update active tab button
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Show corresponding tab pane
+                tabPanes.forEach(pane => {
+                    pane.classList.remove('active');
+                    if(pane.id === tabId) {
+                        pane.classList.add('active');
+                    }
+                });
+            });
+        });
 
-function addEL(){
-    let id = mid.value;
-    if(!month.value){ alert("Month লিখুন"); return; }
-    workers[id].months[month.value] = Number(el.value)||0;
-    localStorage.setItem("workers",JSON.stringify(workers));
-    msg.innerText="EL Added";
-}
+        // ================= ADMIN LOGIN =================
+        document.getElementById('loginBtn').addEventListener('click', loginAdmin);
+        document.getElementById('logoutBtn').addEventListener('click', logoutAdmin);
+        
+        function loginAdmin() {
+            const passwordInput = document.getElementById('adminPassword');
+            
+            if(passwordInput.value === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                
+                showMessage('loginMessage', "Login successful!", 'success');
+                
+                // Update admin panel access
+                updateAdminPanelAccess();
+                
+                // Switch to admin panel tab
+                document.querySelector('[data-tab="adminPanel"]').click();
+                
+                // Clear password field
+                passwordInput.value = '';
+            } else {
+                showMessage('loginMessage', "Wrong password. Please try again.", 'error');
+            }
+        }
+        
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            
+            // Update admin panel access
+            updateAdminPanelAccess();
+            
+            // Switch to login tab
+            document.querySelector('[data-tab="adminLogin"]').click();
+            
+            // Show logout message
+            showMessage('loginMessage', "Successfully logged out", 'success');
+        }
 
-function loadWorkerEL(){
-    let id = delWid.value;
-    delRows.innerHTML="";
-    for(let m in workers[id].months){
-        delRows.innerHTML += `
-        <tr>
-            <td>${m}</td>
-            <td>${workers[id].months[m]}</td>
-            <td><button class="red" onclick="deleteEL('${id}','${m}')">Delete</button></td>
-        </tr>`;
-    }
-}
+        // ================= ADMIN PANEL FUNCTIONS =================
+        document.getElementById('saveWorkerBtn').addEventListener('click', saveWorker);
+        document.getElementById('addELBtn').addEventListener('click', addEL);
+        document.getElementById('loadELBtn').addEventListener('click', loadWorkerEL);
+        
+        async function saveWorker() {
+            if(!isAdminLoggedIn) {
+                alert("Please login as admin first");
+                switchToLoginTab();
+                return;
+            }
+            
+            if(!isDatabaseConnected) {
+                showMessage('adminMessage', "Cannot save: Database disconnected", 'error');
+                return;
+            }
+            
+            const workerId = document.getElementById('workerSelect').value;
+            const totalEL = document.getElementById('totalEL').value;
+            
+            if(!workerId) {
+                showMessage('adminMessage', "Please select a worker.", 'error');
+                return;
+            }
+            
+            workers[workerId].total = parseInt(totalEL) || 0;
+            
+            const success = await updateWorkerInFirebase(workerId, { total: workers[workerId].total });
+            
+            if(success) {
+                showMessage('adminMessage', `Worker ${workers[workerId].name} updated with total EL: ${totalEL} days`, 'success');
+            } else {
+                showMessage('adminMessage', 'Failed to save worker data', 'error');
+            }
+        }
+        
+        async function addEL() {
+            if(!isAdminLoggedIn) {
+                alert("Please login as admin first");
+                switchToLoginTab();
+                return;
+            }
+            
+            if(!isDatabaseConnected) {
+                showMessage('adminMessage', "Cannot add EL: Database disconnected", 'error');
+                return;
+            }
+            
+            const workerId = document.getElementById('monthWorkerSelect').value;
+            const month = document.getElementById('monthInput').value.trim();
+            const elDays = document.getElementById('elTaken').value;
+            
+            if(!workerId) {
+                showMessage('adminMessage', "Please select a worker.", 'error');
+                return;
+            }
+            
+            if(!month) {
+                showMessage('adminMessage', "Please enter a month (e.g. Jan-2025).", 'error');
+                return;
+            }
+            
+            if(!elDays || parseInt(elDays) <= 0) {
+                showMessage('adminMessage', "Please enter valid EL days.", 'error');
+                return;
+            }
+            
+            // Add the month to worker's data
+            const monthKey = `months/${month}`;
+            const success = await updateWorkerInFirebase(workerId, { [monthKey]: parseInt(elDays) });
+            
+            if(success) {
+                // Update local data
+                if(!workers[workerId].months) workers[workerId].months = {};
+                workers[workerId].months[month] = parseInt(elDays);
+                
+                showMessage('adminMessage', `Added ${elDays} EL days for ${month} to worker ${workers[workerId].name}`, 'success');
+                
+                // Clear input fields
+                document.getElementById('monthInput').value = '';
+                document.getElementById('elTaken').value = '';
+            } else {
+                showMessage('adminMessage', 'Failed to add EL record', 'error');
+            }
+        }
+        
+        async function loadWorkerEL() {
+            if(!isAdminLoggedIn) {
+                alert("Please login as admin first");
+                switchToLoginTab();
+                return;
+            }
+            
+            const workerId = document.getElementById('deleteWorkerSelect').value;
+            const deleteRows = document.getElementById('deleteRows');
+            
+            if(!workerId) {
+                showMessage('adminMessage', "Please select a worker.", 'error');
+                return;
+            }
+            
+            const worker = workers[workerId];
+            deleteRows.innerHTML = '';
+            
+            if(!worker.months || Object.keys(worker.months).length === 0) {
+                deleteRows.innerHTML = '<tr><td colspan="3" style="text-align: center;">No EL records found for this worker.</td></tr>';
+                return;
+            }
+            
+            for(let month in worker.months) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${month}</td>
+                    <td>${worker.months[month]} days</td>
+                    <td><button class="btn-danger btn-small" onclick="deleteEL('${workerId}','${month}')">Delete</button></td>
+                `;
+                deleteRows.appendChild(row);
+            }
+            
+            showMessage('adminMessage', `Loaded ${Object.keys(worker.months).length} EL records for ${worker.name}`, 'info');
+        }
+        
+        async function deleteEL(workerId, month) {
+            if(!isAdminLoggedIn) {
+                alert("Please login as admin first");
+                switchToLoginTab();
+                return;
+            }
+            
+            if(!isDatabaseConnected) {
+                showMessage('adminMessage', "Cannot delete: Database disconnected", 'error');
+                return;
+            }
+            
+            if(!confirm(`Are you sure you want to delete EL record for ${month}?`)) return;
+            
+            try {
+                const monthRef = ref(database, `workers/${workerId}/months/${month}`);
+                await remove(monthRef);
+                
+                // Update local data
+                if(workers[workerId] && workers[workerId].months) {
+                    delete workers[workerId].months[month];
+                }
+                
+                // Reload the table
+                loadWorkerEL();
+                
+                showMessage('adminMessage', `Deleted EL record for ${month}`, 'success');
+            } catch (error) {
+                console.error("Error deleting EL:", error);
+                showMessage('adminMessage', 'Failed to delete EL record', 'error');
+            }
+        }
 
-function deleteEL(id,month){
-    if(!confirm("Delete this EL?")) return;
-    delete workers[id].months[month];
-    localStorage.setItem("workers",JSON.stringify(workers));
-    loadWorkerEL();
-}
+        // ================= WORKER PANEL FUNCTIONS =================
+        document.getElementById('viewELBtn').addEventListener('click', viewEL);
+        
+        function viewEL() {
+            const workerId = document.getElementById('workerIdInput').value.trim();
+            const resultSection = document.getElementById('resultSection');
+            const worker = workers[workerId];
+            
+            if(!worker) {
+                showMessage('workerMessage', "Worker ID not found. Please enter a valid ID.", 'error');
+                resultSection.style.display = 'none';
+                return;
+            }
+            
+            // Calculate used EL
+            let usedEL = 0;
+            const elRecordsRows = document.getElementById('elRecordsRows');
+            elRecordsRows.innerHTML = '';
+            
+            if(worker.months) {
+                for(let month in worker.months) {
+                    usedEL += worker.months[month];
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${month}</td>
+                        <td>${worker.months[month]} days</td>
+                    `;
+                    elRecordsRows.appendChild(row);
+                }
+            }
+            
+            const remainingEL = worker.total - usedEL;
+            
+            // Update UI
+            document.getElementById('workerName').textContent = worker.name;
+            document.getElementById('workerIdDisplay').textContent = workerId;
+            document.getElementById('totalELDisplay').textContent = worker.total;
+            document.getElementById('usedELDisplay').textContent = usedEL;
+            document.getElementById('remainingELDisplay').textContent = remainingEL;
+            
+            // Highlight remaining EL if low
+            const remainingCard = document.getElementById('remainingELDisplay').parentElement;
+            if(remainingEL <= 5) {
+                remainingCard.classList.add('highlight');
+            } else {
+                remainingCard.classList.remove('highlight');
+            }
+            
+            // Show result section
+            resultSection.style.display = 'block';
+            
+            // Clear any messages
+            showMessage('workerMessage', '', 'info');
+        }
 
-// ================= WORKER =================
-function viewEL(){
-    let id = widW.value.trim();
-    let d = workers[id];
+        // ================= REAL-TIME UPDATES =================
+        // Listen for real-time updates from Firebase
+        const workersRef = ref(database, 'workers');
+        onValue(workersRef, (snapshot) => {
+            if (snapshot.exists()) {
+                workers = snapshot.val();
+                populateDropdowns();
+                
+                // If worker panel is open and showing a worker, update it
+                const workerIdInput = document.getElementById('workerIdInput');
+                if (workerIdInput.value && workers[workerIdInput.value]) {
+                    viewEL();
+                }
+            }
+        });
 
-    if(!d){
-        msgW.innerText="ID Not Found";
-        result.classList.add("hide");
-        return;
-    }
+        // ================= INITIALIZE ON LOAD =================
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load workers from Firebase
+            await loadWorkersFromFirebase();
+            
+            // Add enter key support for login
+            document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') {
+                    loginAdmin();
+                }
+            });
+            
+            // Add enter key support for worker ID input
+            document.getElementById('workerIdInput').addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') {
+                    viewEL();
+                }
+            });
+            
+            // Initialize admin panel access state
+            updateAdminPanelAccess();
+        });
 
-    msgW.innerText="";
-    result.classList.remove("hide");
-
-    let used = 0;
-    rows.innerHTML="";
-    for(let m in d.months){
-        used += d.months[m];
-        rows.innerHTML += `<tr><td>${m}</td><td>${d.months[m]}</td></tr>`;
-    }
-
-    name.innerText = d.name;
-    widShow.innerText = id;
-    totalW.innerText = d.total;
-    used.innerText = used;
-    remain.innerText = d.total - used;
-}
-</script>
-
+        // Make functions available globally for onclick handlers
+        window.switchToLoginTab = switchToLoginTab;
+        window.deleteEL = deleteEL;
+    </script>
 </body>
 </html>
