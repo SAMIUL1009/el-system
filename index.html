@@ -17,7 +17,7 @@ body{
     background:#fff;
     margin:10px auto;
     padding:8px;
-    border:1.5px solid #000;
+    border:2px solid #000;
 }
 h2{text-align:center;font-size:15px;margin:6px 0;}
 input,select,button{
@@ -28,7 +28,7 @@ input,select,button{
 }
 button{
     background:#27ae60;
-    color:white;
+    color:#fff;
     border:none;
 }
 .blue{background:#2980b9;}
@@ -130,7 +130,7 @@ td,th{
 // ================= CONFIG =================
 const ADMIN_PASSWORD = "1234";
 
-// Default Workers
+// Default Workers (PERMANENT)
 const defaultWorkers = {
  "700074":"RAKIBUL SK",
  "700087":"TUSHAR PAL",
@@ -144,14 +144,25 @@ const defaultWorkers = {
  "700286":"KAZI MASUD"
 };
 
-// ================= DATA =================
+// ================= LOAD & AUTO FIX =================
 let workers = JSON.parse(localStorage.getItem("workers") || "{}");
 
 for(let id in defaultWorkers){
     if(!workers[id]){
-        workers[id]={name:defaultWorkers[id],total:24,months:{}};
+        workers[id] = {name:defaultWorkers[id], total:24, months:{}};
+    }else{
+        if(!workers[id].name){
+            workers[id].name = defaultWorkers[id];
+        }
+        if(!workers[id].months){
+            workers[id].months = {};
+        }
+        if(!workers[id].total){
+            workers[id].total = 24;
+        }
     }
 }
+
 localStorage.setItem("workers",JSON.stringify(workers));
 
 // ================= INIT =================
@@ -176,73 +187,77 @@ function openTab(t){
 
 // ================= ADMIN LOGIN =================
 function loginAdmin(){
-    if(adminPass.value===ADMIN_PASSWORD){
+    if(adminPass.value === ADMIN_PASSWORD){
         adminLogin.classList.add("hide");
         adminPanel.classList.remove("hide");
         loginMsg.innerText="";
     }else{
-        loginMsg.innerText="❌ Wrong Password";
+        loginMsg.innerText="Wrong Password";
     }
 }
 
-// ================= ADMIN FUNCTIONS =================
+// ================= ADMIN =================
 function saveWorker(){
-    let id=wid.value;
-    workers[id].total=Number(total.value)||0;
+    let id = wid.value;
+    workers[id].total = Number(total.value)||0;
     localStorage.setItem("workers",JSON.stringify(workers));
-    msg.innerText="✅ Worker Updated";
+    msg.innerText="Worker Updated";
 }
 
 function addEL(){
-    let id=mid.value;
-    if(!month.value){alert("Month দিন");return;}
-    workers[id].months[month.value]=Number(el.value)||0;
+    let id = mid.value;
+    if(!month.value){ alert("Month লিখুন"); return; }
+    workers[id].months[month.value] = Number(el.value)||0;
     localStorage.setItem("workers",JSON.stringify(workers));
-    msg.innerText="✅ EL Added";
+    msg.innerText="EL Added";
 }
 
 function loadWorkerEL(){
-    let id=delWid.value;
+    let id = delWid.value;
     delRows.innerHTML="";
     for(let m in workers[id].months){
-        delRows.innerHTML+=`
+        delRows.innerHTML += `
         <tr>
-          <td>${m}</td>
-          <td>${workers[id].months[m]}</td>
-          <td><button class="red" onclick="deleteEL('${id}','${m}')">Delete</button></td>
+            <td>${m}</td>
+            <td>${workers[id].months[m]}</td>
+            <td><button class="red" onclick="deleteEL('${id}','${m}')">Delete</button></td>
         </tr>`;
     }
 }
 
 function deleteEL(id,month){
-    if(!confirm("এই EL ডিলিট করবেন?"))return;
+    if(!confirm("Delete this EL?")) return;
     delete workers[id].months[month];
     localStorage.setItem("workers",JSON.stringify(workers));
     loadWorkerEL();
-    alert("✅ EL Deleted");
 }
 
 // ================= WORKER =================
 function viewEL(){
-    let id=widW.value.trim();
-    let d=workers[id];
-    if(!d){msgW.innerText="❌ ID Not Found";result.classList.add("hide");return;}
+    let id = widW.value.trim();
+    let d = workers[id];
+
+    if(!d){
+        msgW.innerText="ID Not Found";
+        result.classList.add("hide");
+        return;
+    }
 
     msgW.innerText="";
     result.classList.remove("hide");
 
-    let used=0;
+    let used = 0;
     rows.innerHTML="";
     for(let m in d.months){
-        used+=d.months[m];
-        rows.innerHTML+=`<tr><td>${m}</td><td>${d.months[m]}</td></tr>`;
+        used += d.months[m];
+        rows.innerHTML += `<tr><td>${m}</td><td>${d.months[m]}</td></tr>`;
     }
 
-    name.innerText=d.name;
-    widShow.innerText=id;
-    totalW.innerText=d.total;
-    used.innerText=used;
-    remain.innerText=d.total-used;
+    name.innerText = d.name;
+    widShow.innerText = id;
+    totalW.innerText = d.total;
+    used.innerText = used;
+    remain.innerText = d.total - used;
 }
 </script>
 
