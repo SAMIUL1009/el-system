@@ -40,12 +40,20 @@ td,th{border:1px solid #000;padding:4px;text-align:center;}
 <h2>EL System</h2>
 
 <div class="tab-btns">
-    <button id="adminTab" onclick="showTab('admin')">Admin</button>
-    <button id="workerTab" onclick="showTab('worker')">Worker</button>
+    <button onclick="showTab('admin')">Admin</button>
+    <button onclick="showTab('worker')">Worker</button>
+</div>
+
+<!-- Admin Login Section -->
+<div id="adminLoginSection" class="hide">
+    <h2>Admin Login</h2>
+    <input type="password" id="adminPass" placeholder="Enter Admin Password">
+    <button onclick="loginAdmin()">Login</button>
+    <p id="loginMsg" class="msg"></p>
 </div>
 
 <!-- Admin Section -->
-<div id="adminSection">
+<div id="adminSection" class="hide">
     <h2>Admin – EL Data Entry</h2>
 
     <select id="wid"></select>
@@ -86,7 +94,10 @@ td,th{border:1px solid #000;padding:4px;text-align:center;}
 </div>
 
 <script>
-// Default Workers
+// 🔐 Admin Password
+const ADMIN_PASSWORD = "1234";
+
+// 🔹 Default Workers (FIXED)
 const defaultWorkers = {
   "700074":"RAKIBUL SK",
   "700087":"TUSHAR PAL",
@@ -100,16 +111,23 @@ const defaultWorkers = {
   "700286":"KAZI MASUD"
 };
 
-// Load or init workers
-let workers = JSON.parse(localStorage.getItem("workers") || "{}");
-for(let id in defaultWorkers){
-    if(!workers[id]){
-        workers[id]={name:defaultWorkers[id],total:24,months:{}};
-    }
-}
-localStorage.setItem("workers",JSON.stringify(workers));
+// 🔹 Always rebuild workers properly
+let stored = JSON.parse(localStorage.getItem("workers") || "{}");
+let workers = {};
 
-// Fill dropdowns
+// Merge default + stored (IMPORTANT FIX)
+for(let id in defaultWorkers){
+    workers[id] = {
+        name: defaultWorkers[id],
+        total: 24,
+        months: stored[id]?.months || {}
+    };
+}
+
+// Save corrected data back
+localStorage.setItem("workers", JSON.stringify(workers));
+
+/* ---------- Dropdown ---------- */
 function loadDropdown(){
     wid.innerHTML = "";
     mid.innerHTML = "";
@@ -121,54 +139,79 @@ function loadDropdown(){
 }
 loadDropdown();
 
-// Tabs
+/* ---------- Tabs ---------- */
 function showTab(tab){
-    if(tab==='admin'){
-        adminSection.classList.remove("hide");
-        workerSection.classList.add("hide");
-    } else{
-        adminSection.classList.add("hide");
+    adminLoginSection.classList.add("hide");
+    adminSection.classList.add("hide");
+    workerSection.classList.add("hide");
+
+    if(tab==="admin"){
+        adminLoginSection.classList.remove("hide");
+    }else{
         workerSection.classList.remove("hide");
     }
 }
 
-// Admin Functions
+/* ---------- Admin Login ---------- */
+function loginAdmin(){
+    if(adminPass.value===ADMIN_PASSWORD){
+        adminLoginSection.classList.add("hide");
+        adminSection.classList.remove("hide");
+        loginMsg.innerText="";
+    }else{
+        loginMsg.innerText="❌ Wrong Password";
+    }
+}
+
+/* ---------- Admin ---------- */
 function saveWorker(){
-    let id=wid.value;
-    workers[id].total=Number(total.value)||0;
-    localStorage.setItem("workers",JSON.stringify(workers));
+    workers[wid.value].total = Number(total.value) || 24;
+    localStorage.setItem("workers", JSON.stringify(workers));
     msg.innerText="✅ Worker Updated";
 }
 
 function addEL(){
-    let id=mid.value;
-    if(!month.value){alert("Month লিখুন"); return;}
-    workers[id].months[month.value]=Number(el.value)||0;
-    localStorage.setItem("workers",JSON.stringify(workers));
+    if(!month.value) return alert("Month লিখুন");
+    workers[mid.value].months[month.value] = Number(el.value) || 0;
+    localStorage.setItem("workers", JSON.stringify(workers));
     msg.innerText="✅ EL Saved";
 }
 
-// Worker Functions
+/* ---------- Worker ---------- */
 function viewEL(){
-    let id=widW.value.trim();
-    let data=workers[id];
-    if(!data){msgW.innerText="❌ Worker ID Not Found"; result.classList.add("hide"); return;}
+    let id = widW.value.trim();
+    let data = workers[id];
 
-    msgW.innerText=""; result.classList.remove("hide");
-
-    let usedEL=0;
-    rows.innerHTML="";
-    for(let m in data.months){
-        usedEL+=data.months[m];
-        rows.innerHTML+=`<tr><td>${m}</td><td>${data.months[m]}</td></tr>`;
+    if(!data){
+        msgW.innerText = "❌ Worker ID Not Found";
+        result.classList.add("hide");
+        return;
     }
 
-    name.innerText=data.name;
-    widShow.innerText=id;
-    totalW.innerText=data.total;
-    used.innerText=usedEL;
-    remain.innerText=data.total-usedEL;
+    // ✅ NAME SHOW FIX
+    document.getElementById("name").innerText = data.name;
+
+    let usedEL = 0;
+    rows.innerHTML = "";
+
+    for(let m in data.months){
+        usedEL += data.months[m];
+        rows.innerHTML += `
+          <tr>
+            <td>${m}</td>
+            <td>${data.months[m]}</td>
+          </tr>`;
+    }
+
+    widShow.innerText = id;
+    totalW.innerText = data.total;
+    used.innerText = usedEL;
+    remain.innerText = data.total - usedEL;
+
+    msgW.innerText = "";
+    result.classList.remove("hide");
 }
+
 </script>
 
 </body>
