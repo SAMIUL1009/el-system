@@ -466,6 +466,26 @@
             margin-bottom: 15px;
             color: var(--gray);
         }
+        
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .welcome-banner h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        
+        .welcome-banner p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -482,14 +502,71 @@
         
         <div class="main-box">
             <div class="tab-header">
-                <button class="tab-btn active" data-tab="adminLogin">Admin Login</button>
+                <button class="tab-btn" data-tab="workerPanel" id="workerPanelTab">Worker Panel</button>
+                <button class="tab-btn" data-tab="adminLogin">Admin Login</button>
                 <button class="tab-btn" data-tab="adminPanel" id="adminPanelTab">Admin Panel</button>
-                <button class="tab-btn" data-tab="workerPanel">Worker Panel</button>
             </div>
             
             <div class="tab-content">
+                <!-- Worker Panel Tab - NOW FIRST AND DEFAULT -->
+                <div id="workerPanel" class="tab-pane active">
+                    <div class="welcome-banner">
+                        <h3>Welcome to EL System</h3>
+                        <p>Check your Earned Leave status by entering your Worker ID</p>
+                    </div>
+                    
+                    <h2>Worker EL Status</h2>
+                    
+                    <div class="form-group">
+                        <label for="workerIdInput">Enter Worker ID</label>
+                        <input type="text" id="workerIdInput" placeholder="e.g. 700074">
+                    </div>
+                    
+                    <button id="viewELBtn" class="btn-secondary">View EL Status</button>
+                    
+                    <div id="workerMessage" class="message"></div>
+                    
+                    <div id="resultSection" style="display: none;">
+                        <div class="stats-box">
+                            <div class="stat-card">
+                                <div class="stat-label">Worker Name</div>
+                                <div class="stat-value" id="workerName">-</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Worker ID</div>
+                                <div class="stat-value" id="workerIdDisplay">-</div>
+                            </div>
+                            <div class="stat-card total">
+                                <div class="stat-label">Total EL</div>
+                                <div class="stat-value" id="totalELDisplay">-</div>
+                            </div>
+                            <div class="stat-card used">
+                                <div class="stat-label">Used EL</div>
+                                <div class="stat-value" id="usedELDisplay">-</div>
+                            </div>
+                            <div class="stat-card remaining">
+                                <div class="stat-label">Remaining EL</div>
+                                <div class="stat-value" id="remainingELDisplay">-</div>
+                            </div>
+                        </div>
+                        
+                        <h3>Monthly EL Records</h3>
+                        <table id="elRecordsTable">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>EL Days</th>
+                                </tr>
+                            </thead>
+                            <tbody id="elRecordsRows">
+                                <!-- Rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
                 <!-- Admin Login Tab -->
-                <div id="adminLogin" class="tab-pane active">
+                <div id="adminLogin" class="tab-pane">
                     <h2>Admin Login</h2>
                     <div class="form-group">
                         <label for="adminPassword">Admin Password</label>
@@ -498,7 +575,7 @@
                     <button id="loginBtn" class="btn-secondary">Login as Admin</button>
                     <div id="loginMessage" class="message"></div>
                     
-                    <div class="hr-text"><span></span></div>
+                    <div class="hr-text"><span>Default Admin Password: 1234</span></div>
                     
                     <div class="info message">
                         <strong>Note:</strong> All data is synchronized in real-time across all devices using Firebase.
@@ -577,58 +654,6 @@
                     </table>
                     
                     <div id="adminMessage" class="message"></div>
-                </div>
-                
-                <!-- Worker Panel Tab -->
-                <div id="workerPanel" class="tab-pane">
-                    <h2>Worker EL Status</h2>
-                    
-                    <div class="form-group">
-                        <label for="workerIdInput">Enter Worker ID</label>
-                        <input type="text" id="workerIdInput" placeholder="e.g. 700074">
-                    </div>
-                    
-                    <button id="viewELBtn" class="btn-secondary">View EL Status</button>
-                    
-                    <div id="workerMessage" class="message"></div>
-                    
-                    <div id="resultSection" style="display: none;">
-                        <div class="stats-box">
-                            <div class="stat-card">
-                                <div class="stat-label">Worker Name</div>
-                                <div class="stat-value" id="workerName">-</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-label">Worker ID</div>
-                                <div class="stat-value" id="workerIdDisplay">-</div>
-                            </div>
-                            <div class="stat-card total">
-                                <div class="stat-label">Total EL</div>
-                                <div class="stat-value" id="totalELDisplay">-</div>
-                            </div>
-                            <div class="stat-card used">
-                                <div class="stat-label">Used EL</div>
-                                <div class="stat-value" id="usedELDisplay">-</div>
-                            </div>
-                            <div class="stat-card remaining">
-                                <div class="stat-label">Remaining EL</div>
-                                <div class="stat-value" id="remainingELDisplay">-</div>
-                            </div>
-                        </div>
-                        
-                        <h3>Monthly EL Records</h3>
-                        <table id="elRecordsTable">
-                            <thead>
-                                <tr>
-                                    <th>Month</th>
-                                    <th>EL Days</th>
-                                </tr>
-                            </thead>
-                            <tbody id="elRecordsRows">
-                                <!-- Rows will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
@@ -792,7 +817,31 @@
         }
         
         function switchToLoginTab() {
-            document.querySelector('[data-tab="adminLogin"]').click();
+            openTab('adminLogin');
+        }
+
+        // ================= TAB MANAGEMENT =================
+        function openTab(tabName) {
+            // Update active tab button
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-tab') === tabName) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Show corresponding tab pane
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+                if(pane.id === tabName) {
+                    pane.classList.add('active');
+                }
+            });
+            
+            // Clear messages when switching tabs
+            clearMessages();
         }
 
         // ================= UI FUNCTIONS =================
@@ -829,34 +878,19 @@
             }, 3000);
         }
 
-        // ================= TAB MANAGEMENT =================
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-        
-        tabBtns.forEach(btn => {
+        // ================= TAB EVENT LISTENERS =================
+        document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                // Don't allow clicking on admin panel tab if not logged in
                 const tabId = btn.getAttribute('data-tab');
                 
+                // Don't allow clicking on admin panel tab if not logged in
                 if(tabId === 'adminPanel' && !isAdminLoggedIn) {
                     showMessage('loginMessage', "Please login first to access Admin Panel", 'error');
-                    
-                    // Switch to login tab instead
-                    document.querySelector('[data-tab="adminLogin"]').click();
+                    openTab('adminLogin');
                     return;
                 }
                 
-                // Update active tab button
-                tabBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                // Show corresponding tab pane
-                tabPanes.forEach(pane => {
-                    pane.classList.remove('active');
-                    if(pane.id === tabId) {
-                        pane.classList.add('active');
-                    }
-                });
+                openTab(tabId);
             });
         });
 
@@ -876,7 +910,7 @@
                 updateAdminPanelAccess();
                 
                 // Switch to admin panel tab
-                document.querySelector('[data-tab="adminPanel"]').click();
+                openTab('adminPanel');
                 
                 // Clear password field
                 passwordInput.value = '';
@@ -891,11 +925,11 @@
             // Update admin panel access
             updateAdminPanelAccess();
             
-            // Switch to login tab
-            document.querySelector('[data-tab="adminLogin"]').click();
+            // Switch to worker panel tab (default for workers)
+            openTab('workerPanel');
             
             // Show logout message
-            showMessage('loginMessage', "Successfully logged out", 'success');
+            showMessage('workerMessage', "Successfully logged out as admin", 'success');
         }
 
         // ================= ADMIN PANEL FUNCTIONS =================
@@ -1108,6 +1142,15 @@
             showMessage('workerMessage', '', 'info');
         }
 
+        // ================= UTILITY FUNCTIONS =================
+        function clearMessages() {
+            const messages = document.querySelectorAll('.message');
+            messages.forEach(msg => {
+                msg.textContent = '';
+                msg.className = 'message';
+            });
+        }
+
         // ================= REAL-TIME UPDATES =================
         // Listen for real-time updates from Firebase
         const workersRef = ref(database, 'workers');
@@ -1145,11 +1188,16 @@
             
             // Initialize admin panel access state
             updateAdminPanelAccess();
+            
+            // Auto-focus on worker ID input when worker panel opens
+            const workerIdInput = document.getElementById('workerIdInput');
+            workerIdInput.focus();
         });
 
         // Make functions available globally for onclick handlers
         window.switchToLoginTab = switchToLoginTab;
         window.deleteEL = deleteEL;
+        window.openTab = openTab;
     </script>
 </body>
 </html>
