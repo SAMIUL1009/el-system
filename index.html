@@ -20,17 +20,33 @@ body{
     border:1.5px solid #000;
 }
 h2{text-align:center;font-size:15px;margin:6px 0;}
-input,select,button{width:100%;padding:6px;margin:4px 0;font-size:12px;}
-button{background:#27ae60;color:white;border:none;}
-.small-btn{background:#2980b9;}
-hr{margin:8px 0;}
-p{color:green;text-align:center;}
+input,select,button{
+    width:100%;
+    padding:6px;
+    margin:4px 0;
+    font-size:12px;
+}
+button{
+    background:#27ae60;
+    color:white;
+    border:none;
+}
+.blue{background:#2980b9;}
+.red{background:#c0392b;}
 .hide{display:none;}
 .msg{color:red;text-align:center;}
-.tab-btns{display:flex;justify-content:space-between;margin-bottom:6px;}
-.tab-btns button{width:49%;padding:6px;}
-table{width:100%;border-collapse:collapse;margin-top:6px;}
-td,th{border:1px solid #000;padding:4px;text-align:center;}
+.tab{display:flex;gap:5px;}
+.tab button{width:50%;}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:6px;
+}
+td,th{
+    border:1px solid #000;
+    padding:4px;
+    text-align:center;
+}
 </style>
 </head>
 
@@ -39,179 +55,195 @@ td,th{border:1px solid #000;padding:4px;text-align:center;}
 <div class="box">
 <h2>EL System</h2>
 
-<div class="tab-btns">
-    <button onclick="showTab('admin')">Admin</button>
-    <button onclick="showTab('worker')">Worker</button>
+<div class="tab">
+    <button onclick="openTab('adminLogin')">Admin</button>
+    <button onclick="openTab('worker')">Worker</button>
 </div>
 
-<!-- Admin Login Section -->
-<div id="adminLoginSection" class="hide">
+<!-- ADMIN LOGIN -->
+<div id="adminLogin" class="hide">
     <h2>Admin Login</h2>
-    <input type="password" id="adminPass" placeholder="Enter Admin Password">
+    <input type="password" id="adminPass" placeholder="Admin Password">
     <button onclick="loginAdmin()">Login</button>
     <p id="loginMsg" class="msg"></p>
 </div>
 
-<!-- Admin Section -->
-<div id="adminSection" class="hide">
-    <h2>Admin – EL Data Entry</h2>
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="hide">
 
-    <select id="wid"></select>
-    <input id="total" placeholder="Total EL (Year)" value="24">
-    <button onclick="saveWorker()">Save / Update Worker</button>
+<h2>Admin Panel</h2>
 
-    <hr>
+<select id="wid"></select>
+<input id="total" value="24" placeholder="Total EL (Year)">
+<button onclick="saveWorker()">Save Worker</button>
 
-    <h2>Add / Update Monthly EL</h2>
-    <select id="mid"></select>
-    <input id="month" placeholder="Month (e.g. Jan-2025)">
-    <input id="el" placeholder="EL Taken">
-    <button class="small-btn" onclick="addEL()">Save EL</button>
+<hr>
 
-    <p id="msg"></p>
+<h2>Add Monthly EL</h2>
+<select id="mid"></select>
+<input id="month" placeholder="Month (e.g. Jan-2025)">
+<input id="el" placeholder="EL Taken">
+<button class="blue" onclick="addEL()">Save EL</button>
+
+<hr>
+
+<h2>Delete Wrong EL</h2>
+<select id="delWid"></select>
+<button onclick="loadWorkerEL()">Load EL</button>
+
+<table>
+<tr><th>Month</th><th>EL</th><th>Action</th></tr>
+<tbody id="delRows"></tbody>
+</table>
+
+<p id="msg"></p>
 </div>
 
-<!-- Worker Section -->
-<div id="workerSection" class="hide">
-    <h2>Worker EL Status</h2>
-    <input id="widW" placeholder="Enter Worker ID">
-    <button onclick="viewEL()">View EL</button>
+<!-- WORKER PANEL -->
+<div id="worker" class="hide">
+<h2>Worker EL Status</h2>
 
-    <div id="result" class="hide">
-        <table>
-            <tr><td>Name</td><td id="name"></td></tr>
-            <tr><td>Worker ID</td><td id="widShow"></td></tr>
-            <tr><td>Total EL</td><td id="totalW"></td></tr>
-            <tr><td>EL Taken</td><td id="used"></td></tr>
-            <tr><td><b>Remaining EL</b></td><td id="remain"></td></tr>
-        </table>
-        <table>
-            <tr><th>Month</th><th>EL Taken</th></tr>
-            <tbody id="rows"></tbody>
-        </table>
-    </div>
-    <p id="msgW" class="msg"></p>
+<input id="widW" placeholder="Enter Worker ID">
+<button onclick="viewEL()">View EL</button>
+
+<div id="result" class="hide">
+<table>
+<tr><td>Name</td><td id="name"></td></tr>
+<tr><td>ID</td><td id="widShow"></td></tr>
+<tr><td>Total EL</td><td id="totalW"></td></tr>
+<tr><td>Used EL</td><td id="used"></td></tr>
+<tr><td><b>Remaining</b></td><td id="remain"></td></tr>
+</table>
+
+<table>
+<tr><th>Month</th><th>EL</th></tr>
+<tbody id="rows"></tbody>
+</table>
+</div>
+
+<p id="msgW" class="msg"></p>
+</div>
+
 </div>
 
 <script>
-// 🔐 Admin Password
+// ================= CONFIG =================
 const ADMIN_PASSWORD = "1234";
 
-// 🔹 Default Workers (FIXED)
+// Default Workers
 const defaultWorkers = {
-  "700074":"RAKIBUL SK",
-  "700087":"TUSHAR PAL",
-  "700271":"AZIMUDDIN SK",
-  "700274":"ARUP BHASKAR",
-  "700278":"IMMAMUDDIN SK",
-  "700279":"SHAFFIUDDIN SK",
-  "700282":"BIDHAN CH. MONDAL",
-  "700283":"ANUP MONDAL",
-  "700284":"SAMJAN SK",
-  "700286":"KAZI MASUD"
+ "700074":"RAKIBUL SK",
+ "700087":"TUSHAR PAL",
+ "700271":"AZIMUDDIN SK",
+ "700274":"ARUP BHASKAR",
+ "700278":"IMMAMUDDIN SK",
+ "700279":"SHAFFIUDDIN SK",
+ "700282":"BIDHAN CH. MONDAL",
+ "700283":"ANUP MONDAL",
+ "700284":"SAMJAN SK",
+ "700286":"KAZI MASUD"
 };
 
-// 🔹 Always rebuild workers properly
-let stored = JSON.parse(localStorage.getItem("workers") || "{}");
-let workers = {};
+// ================= DATA =================
+let workers = JSON.parse(localStorage.getItem("workers") || "{}");
 
-// Merge default + stored (IMPORTANT FIX)
 for(let id in defaultWorkers){
-    workers[id] = {
-        name: defaultWorkers[id],
-        total: 24,
-        months: stored[id]?.months || {}
-    };
+    if(!workers[id]){
+        workers[id]={name:defaultWorkers[id],total:24,months:{}};
+    }
 }
+localStorage.setItem("workers",JSON.stringify(workers));
 
-// Save corrected data back
-localStorage.setItem("workers", JSON.stringify(workers));
-
-/* ---------- Dropdown ---------- */
-function loadDropdown(){
-    wid.innerHTML = "";
-    mid.innerHTML = "";
+// ================= INIT =================
+function loadDropdowns(){
+    wid.innerHTML = mid.innerHTML = delWid.innerHTML = "";
     for(let id in workers){
-        let text = id + " - " + workers[id].name;
-        wid.innerHTML += `<option value="${id}">${text}</option>`;
-        mid.innerHTML += `<option value="${id}">${text}</option>`;
+        let t = id+" - "+workers[id].name;
+        wid.innerHTML += `<option value="${id}">${t}</option>`;
+        mid.innerHTML += `<option value="${id}">${t}</option>`;
+        delWid.innerHTML += `<option value="${id}">${t}</option>`;
     }
 }
-loadDropdown();
+loadDropdowns();
 
-/* ---------- Tabs ---------- */
-function showTab(tab){
-    adminLoginSection.classList.add("hide");
-    adminSection.classList.add("hide");
-    workerSection.classList.add("hide");
-
-    if(tab==="admin"){
-        adminLoginSection.classList.remove("hide");
-    }else{
-        workerSection.classList.remove("hide");
-    }
+// ================= TAB =================
+function openTab(t){
+    adminLogin.classList.add("hide");
+    adminPanel.classList.add("hide");
+    worker.classList.add("hide");
+    document.getElementById(t).classList.remove("hide");
 }
 
-/* ---------- Admin Login ---------- */
+// ================= ADMIN LOGIN =================
 function loginAdmin(){
     if(adminPass.value===ADMIN_PASSWORD){
-        adminLoginSection.classList.add("hide");
-        adminSection.classList.remove("hide");
+        adminLogin.classList.add("hide");
+        adminPanel.classList.remove("hide");
         loginMsg.innerText="";
     }else{
         loginMsg.innerText="❌ Wrong Password";
     }
 }
 
-/* ---------- Admin ---------- */
+// ================= ADMIN FUNCTIONS =================
 function saveWorker(){
-    workers[wid.value].total = Number(total.value) || 24;
-    localStorage.setItem("workers", JSON.stringify(workers));
+    let id=wid.value;
+    workers[id].total=Number(total.value)||0;
+    localStorage.setItem("workers",JSON.stringify(workers));
     msg.innerText="✅ Worker Updated";
 }
 
 function addEL(){
-    if(!month.value) return alert("Month লিখুন");
-    workers[mid.value].months[month.value] = Number(el.value) || 0;
-    localStorage.setItem("workers", JSON.stringify(workers));
-    msg.innerText="✅ EL Saved";
+    let id=mid.value;
+    if(!month.value){alert("Month দিন");return;}
+    workers[id].months[month.value]=Number(el.value)||0;
+    localStorage.setItem("workers",JSON.stringify(workers));
+    msg.innerText="✅ EL Added";
 }
 
-/* ---------- Worker ---------- */
+function loadWorkerEL(){
+    let id=delWid.value;
+    delRows.innerHTML="";
+    for(let m in workers[id].months){
+        delRows.innerHTML+=`
+        <tr>
+          <td>${m}</td>
+          <td>${workers[id].months[m]}</td>
+          <td><button class="red" onclick="deleteEL('${id}','${m}')">Delete</button></td>
+        </tr>`;
+    }
+}
+
+function deleteEL(id,month){
+    if(!confirm("এই EL ডিলিট করবেন?"))return;
+    delete workers[id].months[month];
+    localStorage.setItem("workers",JSON.stringify(workers));
+    loadWorkerEL();
+    alert("✅ EL Deleted");
+}
+
+// ================= WORKER =================
 function viewEL(){
-    let id = widW.value.trim();
-    let data = workers[id];
+    let id=widW.value.trim();
+    let d=workers[id];
+    if(!d){msgW.innerText="❌ ID Not Found";result.classList.add("hide");return;}
 
-    if(!data){
-        msgW.innerText = "❌ Worker ID Not Found";
-        result.classList.add("hide");
-        return;
-    }
-
-    // ✅ NAME SHOW FIX
-    document.getElementById("name").innerText = data.name;
-
-    let usedEL = 0;
-    rows.innerHTML = "";
-
-    for(let m in data.months){
-        usedEL += data.months[m];
-        rows.innerHTML += `
-          <tr>
-            <td>${m}</td>
-            <td>${data.months[m]}</td>
-          </tr>`;
-    }
-
-    widShow.innerText = id;
-    totalW.innerText = data.total;
-    used.innerText = usedEL;
-    remain.innerText = data.total - usedEL;
-
-    msgW.innerText = "";
+    msgW.innerText="";
     result.classList.remove("hide");
-}
 
+    let used=0;
+    rows.innerHTML="";
+    for(let m in d.months){
+        used+=d.months[m];
+        rows.innerHTML+=`<tr><td>${m}</td><td>${d.months[m]}</td></tr>`;
+    }
+
+    name.innerText=d.name;
+    widShow.innerText=id;
+    totalW.innerText=d.total;
+    used.innerText=used;
+    remain.innerText=d.total-used;
+}
 </script>
 
 </body>
