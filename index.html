@@ -174,7 +174,7 @@
             color: var(--dark);
         }
         
-        input, select, button {
+        input, select, button, textarea {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid var(--border);
@@ -183,7 +183,7 @@
             transition: all 0.3s;
         }
         
-        input:focus, select:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
@@ -231,6 +231,14 @@
             background: #a93226;
         }
         
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
         .btn-small {
             padding: 8px 12px;
             font-size: 13px;
@@ -260,6 +268,12 @@
             background: #e3f2fd;
             color: #1565c0;
             border: 1px solid #90caf9;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
         }
         
         .locked {
@@ -299,7 +313,7 @@
         
         .stats-box {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
@@ -322,6 +336,25 @@
         
         .stat-card.remaining {
             border-left-color: var(--primary);
+        }
+        
+        .stat-card.attendance {
+            border-left-color: #9b59b6;
+        }
+        
+        .stat-card.attendance-good {
+            border-left-color: var(--primary);
+            background: #e8f5e9;
+        }
+        
+        .stat-card.attendance-average {
+            border-left-color: var(--warning);
+            background: #fff3cd;
+        }
+        
+        .stat-card.attendance-poor {
+            border-left-color: var(--danger);
+            background: #ffebee;
         }
         
         .stat-value {
@@ -402,7 +435,11 @@
         }
         
         @media (max-width: 768px) {
-            .stats-box, .month-input-group {
+            .stats-box {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .month-input-group {
                 grid-template-columns: 1fr;
             }
             
@@ -486,12 +523,308 @@
             font-size: 14px;
             opacity: 0.9;
         }
+        
+        .drive-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+        }
+        
+        .drive-icon {
+            font-size: 48px;
+            color: #4285F4;
+            margin-bottom: 15px;
+        }
+        
+        .pdf-preview {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .pdf-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .pdf-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+        
+        .pdf-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .pdf-icon {
+            color: #e74c3c;
+            font-size: 20px;
+        }
+        
+        .pdf-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .pdf-size {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        .pdf-date {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        .drive-instructions {
+            background: #e8f0fe;
+            border: 1px solid #d2e3fc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .drive-instructions ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .drive-instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .link-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .link-input-group input {
+            flex: 1;
+        }
+        
+        .link-input-group button {
+            width: auto;
+            padding: 12px 20px;
+        }
+        
+        .worker-files-section {
+            margin-top: 30px;
+        }
+        
+        .copy-btn {
+            background: var(--secondary);
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .copy-btn:hover {
+            background: #1c5d8a;
+        }
+        
+        .link-display {
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+            word-break: break-all;
+            font-size: 13px;
+            color: var(--dark);
+        }
+        
+        .quick-example {
+            background: #f0f7ff;
+            border: 1px solid #c2e3ff;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+        
+        .example-link {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .example-link:hover {
+            text-decoration: underline;
+        }
+        
+        .year-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .year-btn {
+            padding: 8px 15px;
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .year-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .year-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .attendance-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .attendance-month {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .attendance-month h4 {
+            margin: 0 0 10px 0;
+            color: var(--dark);
+        }
+        
+        .attendance-days {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .attendance-summary {
+            background: #f0f7ff;
+            border: 1px solid #c2e3ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .attendance-summary h4 {
+            margin: 0 0 10px 0;
+            color: var(--dark);
+        }
+        
+        .attendance-summary p {
+            margin: 5px 0;
+            color: var(--dark);
+        }
+        
+        .attendance-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .badge-good {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-average {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-poor {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .admin-tab-header {
+            display: flex;
+            background: var(--light);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        
+        .admin-tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--dark);
+        }
+        
+        .admin-tab-btn:hover {
+            background: rgba(255,255,255,0.7);
+        }
+        
+        .admin-tab-btn.active {
+            background: white;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .admin-content {
+            padding: 20px;
+        }
+        
+        .admin-section {
+            display: none;
+        }
+        
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .admin-main-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .admin-logout-btn {
+            display: block;
+            margin: 20px auto 0;
+            width: 200px;
+        }
+        
+        .attendance-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <button id="logoutBtn" class="logout-btn" style="display: none;">Logout Admin</button>
             <h1>EL System</h1>
             <p class="subtitle">Earned Leave Management System</p>
             <div class="connection-status">
@@ -502,9 +835,8 @@
         
         <div class="main-box">
             <div class="tab-header">
-                <button class="tab-btn" data-tab="workerPanel" id="workerPanelTab">Worker Panel</button>
-                <button class="tab-btn" data-tab="adminLogin">Admin Login</button>
-                <button class="tab-btn" data-tab="adminPanel" id="adminPanelTab">Admin Panel</button>
+                <button class="tab-btn active" data-tab="workerPanel" id="workerPanelTab">Worker Panel</button>
+                <button class="tab-btn" data-tab="adminLogin" id="adminLoginTab">Admin Login</button>
             </div>
             
             <div class="tab-content">
@@ -512,17 +844,17 @@
                 <div id="workerPanel" class="tab-pane active">
                     <div class="welcome-banner">
                         <h3>Welcome to EL System</h3>
-                        <p>Check your Earned Leave status by entering your Worker ID</p>
+                        <p>Check your Earned Leave status and Attendance by entering your Worker ID</p>
                     </div>
                     
-                    <h2>Worker EL Status</h2>
+                    <h2>Worker EL Status & Attendance</h2>
                     
                     <div class="form-group">
                         <label for="workerIdInput">Enter Worker ID</label>
                         <input type="text" id="workerIdInput" placeholder="e.g. 700074">
                     </div>
                     
-                    <button id="viewELBtn" class="btn-secondary">View EL Status</button>
+                    <button id="viewELBtn" class="btn-secondary">View EL Status & Attendance</button>
                     
                     <div id="workerMessage" class="message"></div>
                     
@@ -548,9 +880,27 @@
                                 <div class="stat-label">Remaining EL</div>
                                 <div class="stat-value" id="remainingELDisplay">-</div>
                             </div>
+                            <div class="stat-card attendance" id="attendanceCard">
+                                <div class="stat-label">Last Year Attendance</div>
+                                <div class="stat-value" id="attendanceDisplay">-</div>
+                            </div>
                         </div>
                         
-                        <h3>Monthly EL Records</h3>
+                        <div class="attendance-summary">
+                            <h4>📊 Attendance Summary (Previous Year)</h4>
+                            <div id="attendanceSummary">
+                                <p style="text-align: center; color: var(--gray);">Loading attendance data...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="worker-files-section">
+                            <h3>EL Documents (Google Drive)</h3>
+                            <div id="workerDriveList" class="pdf-preview">
+                                <p style="text-align: center; color: var(--gray);">No Google Drive documents added yet</p>
+                            </div>
+                        </div>
+                        
+                        <h3>Monthly EL Records (Current Year)</h3>
                         <table id="elRecordsTable">
                             <thead>
                                 <tr>
@@ -567,100 +917,184 @@
                 
                 <!-- Admin Login Tab -->
                 <div id="adminLogin" class="tab-pane">
-                    <h2>Admin Login</h2>
-                    <div class="form-group">
-                        <label for="adminPassword">Admin Password</label>
-                        <input type="password" id="adminPassword" placeholder="Enter admin password">
-                    </div>
-                    <button id="loginBtn" class="btn-secondary">Login as Admin</button>
-                    <div id="loginMessage" class="message"></div>
-                    
-                    <div class="hr-text"><span>CREATED BY SAMIUL SK</span></div>
-                    
-                    <div class="info message">
-                        <strong>Note:</strong> All data is synchronized in real-time across all devices using Firebase.
-                    </div>
-                </div>
-                
-                <!-- Admin Panel Tab -->
-                <div id="adminPanel" class="tab-pane admin-only">
-                    <div class="lock-overlay" id="adminLockOverlay">
-                        <div class="lock-icon">🔒</div>
-                        <h3>Admin Panel Locked</h3>
-                        <p>Please login as admin to access this panel</p>
-                        <button onclick="switchToLoginTab()" class="btn-secondary" style="margin-top: 15px;">Go to Login</button>
-                    </div>
-                    
-                    <h2>Admin Panel</h2>
-                    
-                    <div class="form-group">
-                        <label for="workerSelect">Select Worker</label>
-                        <select id="workerSelect">
-                            <option value="">Loading workers...</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="totalEL">Total EL (Days per Year)</label>
-                        <input type="number" id="totalEL" placeholder="Total EL days" min="0" max="60" value="24">
-                    </div>
-                    
-                    <button id="saveWorkerBtn" class="btn-secondary" disabled>Update Worker Total EL</button>
-                    
-                    <div class="hr-text"><span>Add Monthly EL</span></div>
-                    
-                    <div class="form-group">
-                        <label for="monthWorkerSelect">Select Worker for Monthly EL</label>
-                        <select id="monthWorkerSelect">
-                            <option value="">Loading workers...</option>
-                        </select>
-                    </div>
-                    
-                    <div class="month-input-group">
+                    <div id="loginSection">
+                        <h2>Admin Login</h2>
                         <div class="form-group">
-                            <label for="monthInput">Month (e.g. Jan-2025)</label>
-                            <input type="text" id="monthInput" placeholder="Month-Year">
+                            <label for="adminPassword">Admin Password</label>
+                            <input type="password" id="adminPassword" placeholder="Enter admin password">
                         </div>
-                        <div class="form-group">
-                            <label for="elTaken">EL Taken (Days)</label>
-                            <input type="number" id="elTaken" placeholder="Days taken" min="0" max="31">
+                        <button id="loginBtn" class="btn-secondary">Login as Admin</button>
+                        <div id="loginMessage" class="message"></div>
+                        
+                        <div class="hr-text"><span>Default Admin Password: 1234</span></div>
+                        
+                        <div class="info message">
+                            <strong>Note:</strong> All data is synchronized in real-time across all devices using Firebase.
                         </div>
                     </div>
                     
-                    <button id="addELBtn" class="btn-secondary" disabled>Add Monthly EL Record</button>
-                    
-                    <div class="hr-text"><span>Delete Wrong EL Records</span></div>
-                    
-                    <div class="form-group">
-                        <label for="deleteWorkerSelect">Select Worker to Delete EL</label>
-                        <select id="deleteWorkerSelect">
-                            <option value="">Loading workers...</option>
-                        </select>
+                    <!-- Admin Panel (Shown after login) -->
+                    <div id="adminPanelSection" style="display: none;">
+                        <h2 class="admin-main-title">Admin Panel</h2>
+                        
+                        <div class="admin-tab-header">
+                            <button class="admin-tab-btn active" data-admin-tab="adminMain">Admin Panel</button>
+                            <button class="admin-tab-btn" data-admin-tab="driveManager">Google Drive</button>
+                        </div>
+                        
+                        <div class="admin-content">
+                            <!-- Admin Main Panel -->
+                            <div id="adminMain" class="admin-section active">
+                                <h3>EL Management & Attendance</h3>
+                                
+                                <div class="form-group">
+                                    <label for="workerSelect">Select Worker</label>
+                                    <select id="workerSelect">
+                                        <option value="">Loading workers...</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="attendance-input-group">
+                                    <div class="form-group">
+                                        <label for="totalEL">Total EL (Days per Year)</label>
+                                        <input type="number" id="totalEL" placeholder="Total EL days" min="0" max="60" value="24">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastYearAttendance">Last Year Attendance (Days)</label>
+                                        <input type="number" id="lastYearAttendance" placeholder="Days attended last year" min="0" max="365">
+                                    </div>
+                                </div>
+                                
+                                <button id="saveWorkerBtn" class="btn-secondary" disabled>Update Worker Info</button>
+                                
+                                <div class="hr-text"><span>Add Monthly EL</span></div>
+                                
+                                <div class="form-group">
+                                    <label for="monthWorkerSelect">Select Worker for Monthly EL</label>
+                                    <select id="monthWorkerSelect">
+                                        <option value="">Loading workers...</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="month-input-group">
+                                    <div class="form-group">
+                                        <label for="monthInput">Month (e.g. Jan-2025)</label>
+                                        <input type="text" id="monthInput" placeholder="Month-Year">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="elTaken">EL Taken (Days)</label>
+                                        <input type="number" id="elTaken" placeholder="Days taken" min="0" max="31">
+                                    </div>
+                                </div>
+                                
+                                <button id="addELBtn" class="btn-secondary" disabled>Add Monthly EL Record</button>
+                                
+                                <div class="hr-text"><span>Delete Wrong EL Records</span></div>
+                                
+                                <div class="form-group">
+                                    <label for="deleteWorkerSelect">Select Worker to Delete EL</label>
+                                    <select id="deleteWorkerSelect">
+                                        <option value="">Loading workers...</option>
+                                    </select>
+                                </div>
+                                
+                                <button id="loadELBtn" class="btn-secondary" disabled>Load Worker EL Records</button>
+                                
+                                <table id="deleteTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th>EL Days</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="deleteRows">
+                                        <tr><td colspan="3" style="text-align: center;">Select a worker and click "Load Worker EL Records"</td></tr>
+                                    </tbody>
+                                </table>
+                                
+                                <div id="adminMessage" class="message"></div>
+                            </div>
+                            
+                            <!-- Google Drive Manager -->
+                            <div id="driveManager" class="admin-section">
+                                <h3>Google Drive Document Manager</h3>
+                                
+                                <div class="drive-instructions">
+                                    <h4>📚 How to use Google Drive for EL Documents:</h4>
+                                    <ol>
+                                        <li>Upload your EL PDF to Google Drive</li>
+                                        <li>Right-click the file and select "Get link"</li>
+                                        <li>Change sharing settings to "Anyone with the link"</li>
+                                        <li>Copy the link and paste it below</li>
+                                        <li>Add description and select worker</li>
+                                        <li>Click "Add Drive Link"</li>
+                                    </ol>
+                                    
+                                    <div class="quick-example">
+                                        <strong>Example Link:</strong>
+                                        <a href="https://drive.google.com/file/d/1pvqVcXu53rpkih3gWmBayfSpylyckXD2/view?usp=drivesdk" 
+                                           target="_blank" class="example-link">
+                                           https://drive.google.com/file/d/1pvqVcXu53rpkih3gWmBayfSpylyckXD2/view?usp=drivesdk
+                                        </a>
+                                        <p style="margin-top: 5px; margin-bottom: 0;">Click to test the example link</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="driveWorkerSelect">Select Worker for Document</label>
+                                    <select id="driveWorkerSelect">
+                                        <option value="">Loading workers...</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="driveDescription">Document Description</label>
+                                    <input type="text" id="driveDescription" placeholder="e.g., January 2025 EL Certificate, Annual Leave Summary, etc.">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="driveLink">Google Drive Link</label>
+                                    <div class="link-input-group">
+                                        <input type="text" id="driveLink" placeholder="Paste Google Drive link here" 
+                                               value="https://drive.google.com/file/d/1pvqVcXu53rpkih3gWmBayfSpylyckXD2/view?usp=drivesdk">
+                                        <button id="testDriveLink" class="btn-secondary">Test Link</button>
+                                    </div>
+                                    <small style="color: var(--gray); margin-top: 5px; display: block;">
+                                        Accepts: https://drive.google.com/file/d/FILE_ID/view?usp=drivesdk
+                                    </small>
+                                </div>
+                                
+                                <button id="addDriveLinkBtn" class="btn-secondary">Add Drive Link</button>
+                                
+                                <div id="driveMessage" class="message"></div>
+                                
+                                <div class="hr-text"><span>Manage Drive Links</span></div>
+                                
+                                <div class="form-group">
+                                    <label for="viewDriveWorkerSelect">Select Worker to View/Edit Links</label>
+                                    <select id="viewDriveWorkerSelect">
+                                        <option value="">Loading workers...</option>
+                                    </select>
+                                </div>
+                                
+                                <button id="loadDriveLinksBtn" class="btn-secondary">Load Drive Links</button>
+                                
+                                <div id="driveLinksList" class="pdf-preview">
+                                    <p style="text-align: center; color: var(--gray);">Select a worker and click "Load Drive Links"</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="adminLogoutBtn" class="btn-danger admin-logout-btn">Logout Admin</button>
                     </div>
-                    
-                    <button id="loadELBtn" class="btn-secondary" disabled>Load Worker EL Records</button>
-                    
-                    <table id="deleteTable">
-                        <thead>
-                            <tr>
-                                <th>Month</th>
-                                <th>EL Days</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="deleteRows">
-                            <tr><td colspan="3" style="text-align: center;">Select a worker and click "Load Worker EL Records"</td></tr>
-                        </tbody>
-                    </table>
-                    
-                    <div id="adminMessage" class="message"></div>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <p>EL System &copy; 2026 | Earned Leave Management</p>
-            <p>Powered by Firebase | Data synchronized in real-time</p>
+            <p>EL System &copy; 2025 | Earned Leave Management</p>
+            <p>Powered by Firebase | Google Drive Integration</p>
         </div>
     </div>
 
@@ -685,7 +1119,7 @@
         const database = getDatabase(app);
 
         // ================= CONFIG =================
-        const ADMIN_PASSWORD = "726485";
+        const ADMIN_PASSWORD = "1234";
         
         // Default Workers (PERMANENT)
         const defaultWorkers = {
@@ -716,10 +1150,13 @@
                 statusDot.className = 'status-dot status-connected';
                 statusText.textContent = 'Connected to database';
                 
-                // Enable admin buttons
-                document.getElementById('saveWorkerBtn').disabled = false;
-                document.getElementById('addELBtn').disabled = false;
-                document.getElementById('loadELBtn').disabled = false;
+                // Enable admin buttons if logged in
+                if (isAdminLoggedIn) {
+                    document.getElementById('saveWorkerBtn').disabled = false;
+                    document.getElementById('addELBtn').disabled = false;
+                    document.getElementById('loadELBtn').disabled = false;
+                    document.getElementById('addDriveLinkBtn').disabled = false;
+                }
             } else {
                 isDatabaseConnected = false;
                 statusDot.className = 'status-dot status-disconnected';
@@ -729,6 +1166,7 @@
                 document.getElementById('saveWorkerBtn').disabled = true;
                 document.getElementById('addELBtn').disabled = true;
                 document.getElementById('loadELBtn').disabled = true;
+                document.getElementById('addDriveLinkBtn').disabled = true;
             }
         }
 
@@ -753,6 +1191,7 @@
                         workers[id] = {
                             name: defaultWorkers[id],
                             total: 24,
+                            lastYearAttendance: 0, // Initialize with 0
                             months: {}
                         };
                     }
@@ -769,50 +1208,25 @@
             }
         }
 
-        // Save worker to Firebase
-        async function saveWorkerToFirebase(workerId, workerData) {
-            try {
-                const workerRef = ref(database, `workers/${workerId}`);
-                await set(workerRef, workerData);
-                return true;
-            } catch (error) {
-                console.error("Error saving worker:", error);
-                return false;
-            }
-        }
-
-        // Update worker data in Firebase
-        async function updateWorkerInFirebase(workerId, updates) {
-            try {
-                const workerRef = ref(database, `workers/${workerId}`);
-                await update(workerRef, updates);
-                return true;
-            } catch (error) {
-                console.error("Error updating worker:", error);
-                return false;
-            }
-        }
-
         // ================= AUTHENTICATION FUNCTIONS =================
-        function updateAdminPanelAccess() {
-            const adminPanelTab = document.getElementById('adminPanelTab');
-            const adminLockOverlay = document.getElementById('adminLockOverlay');
-            const adminPanel = document.getElementById('adminPanel');
+        function updateAdminInterface() {
+            const loginSection = document.getElementById('loginSection');
+            const adminPanelSection = document.getElementById('adminPanelSection');
             
             if(isAdminLoggedIn) {
-                // Enable admin panel tab
-                adminPanelTab.classList.remove('locked');
-                adminLockOverlay.style.display = 'none';
+                loginSection.style.display = 'none';
+                adminPanelSection.style.display = 'block';
                 
-                // Show logout button
-                document.getElementById('logoutBtn').style.display = 'block';
+                // Enable buttons if connected
+                if (isDatabaseConnected) {
+                    document.getElementById('saveWorkerBtn').disabled = false;
+                    document.getElementById('addELBtn').disabled = false;
+                    document.getElementById('loadELBtn').disabled = false;
+                    document.getElementById('addDriveLinkBtn').disabled = false;
+                }
             } else {
-                // Disable admin panel tab
-                adminPanelTab.classList.add('locked');
-                adminLockOverlay.style.display = 'flex';
-                
-                // Hide logout button
-                document.getElementById('logoutBtn').style.display = 'none';
+                loginSection.style.display = 'block';
+                adminPanelSection.style.display = 'none';
             }
         }
         
@@ -844,16 +1258,41 @@
             clearMessages();
         }
 
+        // ================= ADMIN TAB MANAGEMENT =================
+        function openAdminTab(tabName) {
+            // Update active admin tab button
+            const adminTabBtns = document.querySelectorAll('.admin-tab-btn');
+            adminTabBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-admin-tab') === tabName) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Show corresponding admin section
+            const adminSections = document.querySelectorAll('.admin-section');
+            adminSections.forEach(section => {
+                section.classList.remove('active');
+                if(section.id === tabName) {
+                    section.classList.add('active');
+                }
+            });
+        }
+
         // ================= UI FUNCTIONS =================
         function populateDropdowns() {
             const workerSelect = document.getElementById('workerSelect');
             const monthWorkerSelect = document.getElementById('monthWorkerSelect');
             const deleteWorkerSelect = document.getElementById('deleteWorkerSelect');
+            const driveWorkerSelect = document.getElementById('driveWorkerSelect');
+            const viewDriveWorkerSelect = document.getElementById('viewDriveWorkerSelect');
             
             // Clear existing options
             workerSelect.innerHTML = '';
             monthWorkerSelect.innerHTML = '';
             deleteWorkerSelect.innerHTML = '';
+            driveWorkerSelect.innerHTML = '';
+            viewDriveWorkerSelect.innerHTML = '';
             
             // Add options for each worker
             for(let id in workers) {
@@ -863,6 +1302,8 @@
                 workerSelect.innerHTML += option;
                 monthWorkerSelect.innerHTML += option;
                 deleteWorkerSelect.innerHTML += option;
+                driveWorkerSelect.innerHTML += option;
+                viewDriveWorkerSelect.innerHTML += option;
             }
         }
 
@@ -871,32 +1312,34 @@
             messageDiv.textContent = message;
             messageDiv.className = `message ${type}`;
             
-            // Clear message after 3 seconds
-            setTimeout(() => {
-                messageDiv.textContent = '';
-                messageDiv.className = 'message';
-            }, 3000);
+            // Clear message after 3 seconds (unless it's an error or success we want to keep)
+            if (type === 'info' || type === 'warning') {
+                setTimeout(() => {
+                    messageDiv.textContent = '';
+                    messageDiv.className = 'message';
+                }, 3000);
+            }
         }
 
         // ================= TAB EVENT LISTENERS =================
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const tabId = btn.getAttribute('data-tab');
-                
-                // Don't allow clicking on admin panel tab if not logged in
-                if(tabId === 'adminPanel' && !isAdminLoggedIn) {
-                    showMessage('loginMessage', "Please login first to access Admin Panel", 'error');
-                    openTab('adminLogin');
-                    return;
-                }
-                
                 openTab(tabId);
+            });
+        });
+
+        // Admin tab listeners
+        document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-admin-tab');
+                openAdminTab(tabId);
             });
         });
 
         // ================= ADMIN LOGIN =================
         document.getElementById('loginBtn').addEventListener('click', loginAdmin);
-        document.getElementById('logoutBtn').addEventListener('click', logoutAdmin);
+        document.getElementById('adminLogoutBtn').addEventListener('click', logoutAdmin);
         
         function loginAdmin() {
             const passwordInput = document.getElementById('adminPassword');
@@ -906,14 +1349,17 @@
                 
                 showMessage('loginMessage', "Login successful!", 'success');
                 
-                // Update admin panel access
-                updateAdminPanelAccess();
-                
-                // Switch to admin panel tab
-                openTab('adminPanel');
+                // Update admin interface
+                updateAdminInterface();
                 
                 // Clear password field
                 passwordInput.value = '';
+                
+                // Switch to admin panel
+                setTimeout(() => {
+                    openAdminTab('adminMain');
+                }, 100);
+                
             } else {
                 showMessage('loginMessage', "Wrong password. Please try again.", 'error');
             }
@@ -922,14 +1368,17 @@
         function logoutAdmin() {
             isAdminLoggedIn = false;
             
-            // Update admin panel access
-            updateAdminPanelAccess();
+            // Update admin interface
+            updateAdminInterface();
             
-            // Switch to worker panel tab (default for workers)
-            openTab('workerPanel');
+            // Clear password field
+            document.getElementById('adminPassword').value = '';
             
             // Show logout message
             showMessage('workerMessage', "Successfully logged out as admin", 'success');
+            
+            // Switch to worker panel
+            openTab('workerPanel');
         }
 
         // ================= ADMIN PANEL FUNCTIONS =================
@@ -937,10 +1386,19 @@
         document.getElementById('addELBtn').addEventListener('click', addEL);
         document.getElementById('loadELBtn').addEventListener('click', loadWorkerEL);
         
+        // When worker is selected, populate the attendance field
+        document.getElementById('workerSelect').addEventListener('change', function() {
+            const workerId = this.value;
+            if (workerId && workers[workerId]) {
+                const worker = workers[workerId];
+                document.getElementById('totalEL').value = worker.total || 24;
+                document.getElementById('lastYearAttendance').value = worker.lastYearAttendance || 0;
+            }
+        });
+        
         async function saveWorker() {
             if(!isAdminLoggedIn) {
                 alert("Please login as admin first");
-                switchToLoginTab();
                 return;
             }
             
@@ -951,18 +1409,25 @@
             
             const workerId = document.getElementById('workerSelect').value;
             const totalEL = document.getElementById('totalEL').value;
+            const lastYearAttendance = document.getElementById('lastYearAttendance').value;
             
             if(!workerId) {
                 showMessage('adminMessage', "Please select a worker.", 'error');
                 return;
             }
             
-            workers[workerId].total = parseInt(totalEL) || 0;
+            const updates = {
+                total: parseInt(totalEL) || 0,
+                lastYearAttendance: parseInt(lastYearAttendance) || 0
+            };
             
-            const success = await updateWorkerInFirebase(workerId, { total: workers[workerId].total });
+            const workerRef = ref(database, `workers/${workerId}`);
+            const success = await updateWorkerInFirebase(workerId, updates);
             
             if(success) {
-                showMessage('adminMessage', `Worker ${workers[workerId].name} updated with total EL: ${totalEL} days`, 'success');
+                workers[workerId].total = parseInt(totalEL) || 0;
+                workers[workerId].lastYearAttendance = parseInt(lastYearAttendance) || 0;
+                showMessage('adminMessage', `Worker ${workers[workerId].name} updated: Total EL: ${totalEL} days, Last Year Attendance: ${lastYearAttendance} days`, 'success');
             } else {
                 showMessage('adminMessage', 'Failed to save worker data', 'error');
             }
@@ -971,7 +1436,6 @@
         async function addEL() {
             if(!isAdminLoggedIn) {
                 alert("Please login as admin first");
-                switchToLoginTab();
                 return;
             }
             
@@ -1021,7 +1485,6 @@
         async function loadWorkerEL() {
             if(!isAdminLoggedIn) {
                 alert("Please login as admin first");
-                switchToLoginTab();
                 return;
             }
             
@@ -1057,7 +1520,6 @@
         async function deleteEL(workerId, month) {
             if(!isAdminLoggedIn) {
                 alert("Please login as admin first");
-                switchToLoginTab();
                 return;
             }
             
@@ -1084,6 +1546,374 @@
             } catch (error) {
                 console.error("Error deleting EL:", error);
                 showMessage('adminMessage', 'Failed to delete EL record', 'error');
+            }
+        }
+
+        // ================= ATTENDANCE DISPLAY FUNCTIONS =================
+        function loadAttendanceForDisplay(workerId) {
+            try {
+                const worker = workers[workerId];
+                const attendanceDisplay = document.getElementById('attendanceDisplay');
+                const attendanceSummary = document.getElementById('attendanceSummary');
+                const attendanceCard = document.getElementById('attendanceCard');
+                
+                if (!worker || worker.lastYearAttendance === undefined || worker.lastYearAttendance === null) {
+                    attendanceDisplay.textContent = 'No Data';
+                    attendanceSummary.innerHTML = '<p style="text-align: center; color: var(--gray);">No attendance data available for previous year</p>';
+                    attendanceCard.classList.remove('attendance-good', 'attendance-average', 'attendance-poor');
+                    return;
+                }
+                
+                const totalDays = worker.lastYearAttendance || 0;
+                
+                // Display total
+                attendanceDisplay.textContent = `${totalDays} days`;
+                
+                // Determine attendance rating
+                let rating = '';
+                let badgeClass = '';
+                let cardClass = '';
+                
+                if (totalDays >= 300) {
+                    rating = 'Excellent';
+                    badgeClass = 'badge-good';
+                    cardClass = 'attendance-good';
+                } else if (totalDays >= 250) {
+                    rating = 'Good';
+                    badgeClass = 'badge-good';
+                    cardClass = 'attendance-good';
+                } else if (totalDays >= 200) {
+                    rating = 'Average';
+                    badgeClass = 'badge-average';
+                    cardClass = 'attendance-average';
+                } else {
+                    rating = 'Needs Improvement';
+                    badgeClass = 'badge-poor';
+                    cardClass = 'attendance-poor';
+                }
+                
+                // Update card class
+                attendanceCard.className = 'stat-card attendance ' + cardClass;
+                
+                // Create summary HTML
+                const currentYear = new Date().getFullYear();
+                const previousYear = currentYear - 1;
+                
+                let html = `
+                    <p><strong>Total Days Present (${previousYear}):</strong> ${totalDays} days 
+                    <span class="attendance-badge ${badgeClass}">${rating}</span></p>
+                    <p><strong>Attendance Rate:</strong> ${((totalDays / 365) * 100).toFixed(1)}%</p>
+                `;
+                
+                // Add some analysis
+                if (totalDays >= 300) {
+                    html += '<p><strong>Performance:</strong> Excellent attendance! Well done.</p>';
+                } else if (totalDays >= 250) {
+                    html += '<p><strong>Performance:</strong> Good attendance record.</p>';
+                } else if (totalDays >= 200) {
+                    html += '<p><strong>Performance:</strong> Average attendance. Room for improvement.</p>';
+                } else {
+                    html += '<p><strong>Performance:</strong> Needs improvement in attendance.</p>';
+                }
+                
+                attendanceSummary.innerHTML = html;
+                
+            } catch (error) {
+                console.error("Error loading attendance for display:", error);
+                // Don't show error to workers
+                document.getElementById('attendanceDisplay').textContent = 'Error';
+                document.getElementById('attendanceSummary').innerHTML = '<p style="text-align: center; color: var(--gray);">Error loading attendance data</p>';
+            }
+        }
+
+        // ================= GOOGLE DRIVE FUNCTIONS =================
+        document.getElementById('testDriveLink').addEventListener('click', testDriveLink);
+        document.getElementById('addDriveLinkBtn').addEventListener('click', addDriveLink);
+        document.getElementById('loadDriveLinksBtn').addEventListener('click', loadDriveLinks);
+        
+        function testDriveLink() {
+            const driveLink = document.getElementById('driveLink').value.trim();
+            
+            if (!driveLink) {
+                showMessage('driveMessage', "Please enter a Google Drive link", 'error');
+                return;
+            }
+            
+            // Open link in new tab
+            window.open(driveLink, '_blank');
+            showMessage('driveMessage', "Opening link in new tab...", 'info');
+        }
+        
+        async function addDriveLink() {
+            if(!isAdminLoggedIn) {
+                alert("Please login as admin first");
+                return;
+            }
+            
+            if(!isDatabaseConnected) {
+                showMessage('driveMessage', "Cannot save: Database disconnected", 'error');
+                return;
+            }
+            
+            const workerId = document.getElementById('driveWorkerSelect').value;
+            const description = document.getElementById('driveDescription').value.trim();
+            const driveLink = document.getElementById('driveLink').value.trim();
+            
+            if(!workerId) {
+                showMessage('driveMessage', "Please select a worker.", 'error');
+                return;
+            }
+            
+            if(!description) {
+                showMessage('driveMessage', "Please enter a document description.", 'error');
+                return;
+            }
+            
+            if(!driveLink) {
+                showMessage('driveMessage', "Please enter a Google Drive link.", 'error');
+                return;
+            }
+            
+            // Validate Google Drive link format - FIXED to accept various formats
+            if (!isValidDriveLink(driveLink)) {
+                showMessage('driveMessage', "Please enter a valid Google Drive link.", 'error');
+                return;
+            }
+            
+            try {
+                // Generate unique ID for this drive link
+                const timestamp = Date.now();
+                const driveId = `drive_${timestamp}`;
+                
+                // Create drive link data
+                const driveData = {
+                    description: description,
+                    driveLink: driveLink,
+                    addedAt: new Date().toISOString(),
+                    addedBy: "Admin",
+                    workerId: workerId,
+                    workerName: workers[workerId].name
+                };
+                
+                // Save to Firebase
+                const driveRef = ref(database, `driveLinks/${workerId}/${driveId}`);
+                await set(driveRef, driveData);
+                
+                showMessage('driveMessage', `✅ Drive link added for ${workers[workerId].name}`, 'success');
+                
+                // Clear form
+                document.getElementById('driveDescription').value = '';
+                // Keep the link for convenience (in case adding multiple links)
+                
+                // Load drive links for current worker
+                if (workerId === document.getElementById('viewDriveWorkerSelect').value) {
+                    loadDriveLinks();
+                }
+                
+            } catch (error) {
+                console.error("Error adding drive link:", error);
+                showMessage('driveMessage', '❌ Failed to add drive link: ' + error.message, 'error');
+            }
+        }
+        
+        async function loadDriveLinks() {
+            const workerId = document.getElementById('viewDriveWorkerSelect').value;
+            
+            if(!workerId) {
+                showMessage('driveMessage', "Please select a worker.", 'error');
+                return;
+            }
+            
+            try {
+                // Load from database
+                const driveLinksRef = ref(database, `driveLinks/${workerId}`);
+                const snapshot = await get(driveLinksRef);
+                
+                const driveLinksList = document.getElementById('driveLinksList');
+                
+                if (!snapshot.exists()) {
+                    driveLinksList.innerHTML = '<p style="text-align: center; color: var(--gray);">No Google Drive links added for this worker yet</p>';
+                    return;
+                }
+                
+                const driveLinks = snapshot.val();
+                let html = '<ul class="pdf-list">';
+                
+                // Sort by date (newest first)
+                const sortedLinks = Object.entries(driveLinks)
+                    .sort((a, b) => new Date(b[1].addedAt) - new Date(a[1].addedAt));
+                
+                for (let [driveId, driveLink] of sortedLinks) {
+                    const date = new Date(driveLink.addedAt);
+                    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    // Extract file ID for preview
+                    const fileId = extractDriveFileId(driveLink.driveLink);
+                    const previewLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : driveLink.driveLink;
+                    
+                    html += `
+                        <li class="pdf-item">
+                            <div class="pdf-info">
+                                <div class="drive-icon">📁</div>
+                                <div style="flex: 1;">
+                                    <div class="pdf-name">${driveLink.description}</div>
+                                    <div class="pdf-date">Added: ${formattedDate}</div>
+                                    <div class="link-display">
+                                        <span style="font-size: 11px; color: #666;">Link: </span>
+                                        ${truncateText(driveLink.driveLink, 50)}
+                                        <button class="copy-btn btn-small" onclick="copyToClipboard('${driveLink.driveLink}')">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-buttons">
+                                <button class="btn-secondary btn-small" onclick="window.open('${previewLink}', '_blank')">Open</button>
+                                <button class="btn-warning btn-small" onclick="window.open('${driveLink.driveLink}', '_blank')">View</button>
+                                <button class="btn-danger btn-small" onclick="deleteDriveLink('${workerId}', '${driveId}')">Delete</button>
+                            </div>
+                        </li>
+                    `;
+                }
+                
+                html += '</ul>';
+                driveLinksList.innerHTML = html;
+                
+            } catch (error) {
+                console.error("Error loading drive links:", error);
+                showMessage('driveMessage', 'Error loading Google Drive links', 'error');
+            }
+        }
+        
+        async function loadDriveLinksForDisplay(workerId) {
+            try {
+                const driveLinksRef = ref(database, `driveLinks/${workerId}`);
+                const snapshot = await get(driveLinksRef);
+                
+                const workerDriveList = document.getElementById('workerDriveList');
+                
+                if (!snapshot.exists()) {
+                    workerDriveList.innerHTML = '<p style="text-align: center; color: var(--gray);">No Google Drive documents added yet</p>';
+                    return;
+                }
+                
+                const driveLinks = snapshot.val();
+                let html = '<ul class="pdf-list">';
+                
+                // Sort by date (newest first) and take top 5
+                const sortedLinks = Object.entries(driveLinks)
+                    .sort((a, b) => new Date(b[1].addedAt) - new Date(a[1].addedAt))
+                    .slice(0, 5);
+                
+                for (let [driveId, driveLink] of sortedLinks) {
+                    const date = new Date(driveLink.addedAt);
+                    const formattedDate = date.toLocaleDateString();
+                    
+                    // Extract file ID for preview
+                    const fileId = extractDriveFileId(driveLink.driveLink);
+                    const previewLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : driveLink.driveLink;
+                    
+                    html += `
+                        <li class="pdf-item">
+                            <div class="pdf-info">
+                                <div class="drive-icon">📁</div>
+                                <div>
+                                    <div class="pdf-name">${driveLink.description}</div>
+                                    <div class="pdf-date">Added: ${formattedDate}</div>
+                                </div>
+                            </div>
+                            <div class="flex-buttons">
+                                <button class="btn-secondary btn-small" onclick="window.open('${previewLink}', '_blank')">Open</button>
+                                <button class="copy-btn btn-small" onclick="copyToClipboard('${driveLink.driveLink}')">Copy Link</button>
+                            </div>
+                        </li>
+                    `;
+                }
+                
+                html += '</ul>';
+                if (Object.keys(driveLinks).length > 5) {
+                    html += `<p style="text-align: center; color: var(--gray);">... and ${Object.keys(driveLinks).length - 5} more documents</p>`;
+                }
+                workerDriveList.innerHTML = html;
+                
+            } catch (error) {
+                console.error("Error loading drive links:", error);
+                // Don't show error for workers, just show empty state
+            }
+        }
+        
+        async function deleteDriveLink(workerId, driveId) {
+            if(!isAdminLoggedIn) {
+                alert("Please login as admin first");
+                return;
+            }
+            
+            if(!confirm("Are you sure you want to delete this Google Drive link?")) return;
+            
+            try {
+                // Delete from database
+                const driveRef = ref(database, `driveLinks/${workerId}/${driveId}`);
+                await remove(driveRef);
+                
+                showMessage('driveMessage', '✅ Google Drive link deleted successfully', 'success');
+                
+                // Reload drive links
+                loadDriveLinks();
+                
+            } catch (error) {
+                console.error("Error deleting drive link:", error);
+                showMessage('driveMessage', '❌ Error deleting Google Drive link', 'error');
+            }
+        }
+        
+        function isValidDriveLink(url) {
+            // Accept various Google Drive link formats
+            const patterns = [
+                /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,  // Standard format
+                /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/,   // Alternative format
+                /drive\.google\.com\/uc\?id=([a-zA-Z0-9_-]+)/,     // Download format
+            ];
+            
+            return patterns.some(pattern => pattern.test(url));
+        }
+        
+        function extractDriveFileId(url) {
+            const patterns = [
+                /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,
+                /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/,
+                /drive\.google\.com\/uc\?id=([a-zA-Z0-9_-]+)/,
+            ];
+            
+            for (const pattern of patterns) {
+                const match = url.match(pattern);
+                if (match && match[1]) {
+                    return match[1];
+                }
+            }
+            return null;
+        }
+        
+        function truncateText(text, maxLength) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showMessage('driveMessage', '✅ Link copied to clipboard!', 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showMessage('driveMessage', '❌ Failed to copy link', 'error');
+            });
+        }
+        
+        // Helper function to update worker data in Firebase
+        async function updateWorkerInFirebase(workerId, updates) {
+            try {
+                const workerRef = ref(database, `workers/${workerId}`);
+                await update(workerRef, updates);
+                return true;
+            } catch (error) {
+                console.error("Error updating worker:", error);
+                return false;
             }
         }
 
@@ -1134,6 +1964,12 @@
             } else {
                 remainingCard.classList.remove('highlight');
             }
+            
+            // Load Google Drive links for this worker
+            loadDriveLinksForDisplay(workerId);
+            
+            // Load Attendance data for this worker
+            loadAttendanceForDisplay(workerId);
             
             // Show result section
             resultSection.style.display = 'block';
@@ -1186,18 +2022,23 @@
                 }
             });
             
-            // Initialize admin panel access state
-            updateAdminPanelAccess();
+            // Initialize admin interface state
+            updateAdminInterface();
             
             // Auto-focus on worker ID input when worker panel opens
             const workerIdInput = document.getElementById('workerIdInput');
             workerIdInput.focus();
+            
+            // Pre-fill with example link for testing
+            document.getElementById('driveLink').value = 'https://drive.google.com/file/d/1pvqVcXu53rpkih3gWmBayfSpylyckXD2/view?usp=drivesdk';
         });
 
         // Make functions available globally for onclick handlers
         window.switchToLoginTab = switchToLoginTab;
         window.deleteEL = deleteEL;
         window.openTab = openTab;
+        window.deleteDriveLink = deleteDriveLink;
+        window.copyToClipboard = copyToClipboard;
     </script>
 </body>
 </html>
