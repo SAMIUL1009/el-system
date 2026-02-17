@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>EL System | Earned Leave Management</title>
     <style>
         :root {
@@ -434,44 +434,6 @@
             60%, 100% { content: "..."; }
         }
         
-        @media (max-width: 768px) {
-            .stats-box {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .month-input-group {
-                grid-template-columns: 1fr;
-            }
-            
-            .flex-buttons {
-                flex-direction: column;
-            }
-            
-            .tab-header {
-                flex-direction: column;
-            }
-            
-            .tab-content {
-                padding: 15px;
-            }
-            
-            .logout-btn {
-                position: relative;
-                top: 0;
-                left: 0;
-                width: 100% !important;
-                margin-top: 15px;
-            }
-            
-            .connection-status {
-                position: relative;
-                top: 0;
-                right: 0;
-                justify-content: center;
-                margin-top: 10px;
-            }
-        }
-        
         .highlight {
             background: #e1f5fe !important;
             font-weight: 600;
@@ -820,6 +782,238 @@
             gap: 15px;
             margin-top: 20px;
         }
+
+        /* ========== MOBILE OPTIMIZATIONS ========== */
+        @media (max-width: 768px) {
+            /* Better touch targets */
+            button, 
+            .tab-btn,
+            .admin-tab-btn,
+            .btn-small,
+            input,
+            select {
+                min-height: 48px;
+                font-size: 16px;
+            }
+            
+            /* Improve form spacing */
+            .form-group {
+                margin-bottom: 25px;
+            }
+            
+            /* Better cards */
+            .stat-card {
+                padding: 12px 8px;
+            }
+            
+            .stat-value {
+                font-size: 24px;
+            }
+            
+            /* Horizontal scroll for tables */
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            th, td {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            /* Better PDF items */
+            .pdf-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .pdf-info {
+                width: 100%;
+            }
+            
+            .flex-buttons {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            
+            .flex-buttons button {
+                margin: 0;
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            /* Better link display */
+            .link-display {
+                font-size: 12px;
+                word-break: break-all;
+            }
+            
+            /* Improve spacing in admin sections */
+            .admin-content {
+                padding: 15px 10px;
+            }
+            
+            .attendance-input-group {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            /* Better message boxes */
+            .message {
+                padding: 15px 10px;
+                font-size: 14px;
+            }
+            
+            /* Improve header on mobile */
+            header {
+                padding: 15px 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .connection-status {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-top: 10px;
+                justify-content: center;
+            }
+            
+            /* Welcome banner adjustments */
+            .welcome-banner {
+                padding: 15px 10px;
+            }
+            
+            .welcome-banner h3 {
+                font-size: 16px;
+            }
+            
+            /* Drive instructions */
+            .drive-instructions {
+                padding: 12px;
+            }
+            
+            .drive-instructions ol {
+                margin-left: 15px;
+            }
+            
+            .drive-instructions li {
+                font-size: 13px;
+            }
+            
+            /* Quick example box */
+            .quick-example {
+                padding: 10px;
+                font-size: 12px;
+            }
+            
+            .example-link {
+                word-break: break-all;
+                display: inline-block;
+                max-width: 100%;
+            }
+            
+            /* Link input group */
+            .link-input-group {
+                flex-direction: column;
+            }
+            
+            .link-input-group button {
+                width: 100%;
+            }
+            
+            /* Year selector */
+            .year-selector {
+                flex-wrap: wrap;
+            }
+            
+            .year-btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+            
+            /* Attendance summary */
+            .attendance-summary {
+                padding: 12px;
+            }
+            
+            .attendance-summary p {
+                font-size: 13px;
+            }
+            
+            .attendance-badge {
+                display: inline-block;
+                margin-top: 5px;
+                margin-left: 0;
+            }
+
+            /* Stats box on mobile */
+            .stats-box {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .month-input-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-header {
+                flex-direction: column;
+            }
+            
+            .tab-content {
+                padding: 15px;
+            }
+            
+            .logout-btn {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100% !important;
+                margin-top: 15px;
+            }
+        }
+
+        /* Extra small devices (phones under 400px) */
+        @media (max-width: 400px) {
+            .stats-box {
+                grid-template-columns: 1fr;  /* Single column */
+            }
+            
+            .stat-card {
+                padding: 10px;
+            }
+            
+            .stat-value {
+                font-size: 22px;
+            }
+            
+            .tab-btn {
+                padding: 12px 5px;
+                font-size: 14px;
+            }
+            
+            .btn-small {
+                width: 100%;
+                margin: 2px 0;
+            }
+            
+            .flex-buttons {
+                grid-template-columns: 1fr;  /* Stack buttons */
+            }
+            
+            th, td {
+                padding: 8px 5px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -840,7 +1034,7 @@
             </div>
             
             <div class="tab-content">
-                <!-- Worker Panel Tab - NOW FIRST AND DEFAULT -->
+                <!-- Worker Panel Tab -->
                 <div id="workerPanel" class="tab-pane active">
                     <div class="welcome-banner">
                         <h3>Welcome to EL System</h3>
@@ -926,7 +1120,7 @@
                         <button id="loginBtn" class="btn-secondary">Login as Admin</button>
                         <div id="loginMessage" class="message"></div>
                         
-                        <div class="hr-text"><span>CREATED BY SAMIUL SK</span></div>
+                        <div class="hr-text"><span>Default Admin Password: 1234</span></div>
                         
                         <div class="info message">
                             <strong>Note:</strong> All data is synchronized in real-time across all devices using Firebase.
@@ -1056,8 +1250,7 @@
                                 <div class="form-group">
                                     <label for="driveLink">Google Drive Link</label>
                                     <div class="link-input-group">
-                                        <input type="text" id="driveLink" placeholder="Paste Google Drive link here" 
-                                               value="https://drive.google.com/file/d/1pvqVcXu53rpkih3gWmBayfSpylyckXD2/view?usp=drivesdk">
+                                        <input type="text" id="driveLink" placeholder="Paste Google Drive link here">
                                         <button id="testDriveLink" class="btn-secondary">Test Link</button>
                                     </div>
                                     <small style="color: var(--gray); margin-top: 5px; display: block;">
@@ -1119,7 +1312,7 @@
         const database = getDatabase(app);
 
         // ================= CONFIG =================
-        const ADMIN_PASSWORD = "726485";
+        const ADMIN_PASSWORD = "1234";
         
         // Default Workers (PERMANENT)
         const defaultWorkers = {
@@ -1191,7 +1384,7 @@
                         workers[id] = {
                             name: defaultWorkers[id],
                             total: 24,
-                            lastYearAttendance: 0, // Initialize with 0
+                            lastYearAttendance: 0,
                             months: {}
                         };
                     }
@@ -1674,7 +1867,7 @@
                 return;
             }
             
-            // Validate Google Drive link format - FIXED to accept various formats
+            // Validate Google Drive link format
             if (!isValidDriveLink(driveLink)) {
                 showMessage('driveMessage', "Please enter a valid Google Drive link.", 'error');
                 return;
@@ -1703,7 +1896,6 @@
                 
                 // Clear form
                 document.getElementById('driveDescription').value = '';
-                // Keep the link for convenience (in case adding multiple links)
                 
                 // Load drive links for current worker
                 if (workerId === document.getElementById('viewDriveWorkerSelect').value) {
@@ -1867,9 +2059,9 @@
         function isValidDriveLink(url) {
             // Accept various Google Drive link formats
             const patterns = [
-                /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,  // Standard format
-                /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/,   // Alternative format
-                /drive\.google\.com\/uc\?id=([a-zA-Z0-9_-]+)/,     // Download format
+                /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,
+                /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/,
+                /drive\.google\.com\/uc\?id=([a-zA-Z0-9_-]+)/,
             ];
             
             return patterns.some(pattern => pattern.test(url));
@@ -2028,9 +2220,6 @@
             // Auto-focus on worker ID input when worker panel opens
             const workerIdInput = document.getElementById('workerIdInput');
             workerIdInput.focus();
-            
-            // Pre-fill with example link for testing
-            document.getElementById('driveLink').value = 'https://drive.google.com/file/d/1pvqVcXu53rpkih3gWmBayfSpylyckXD2/view?usp=drivesdk';
         });
 
         // Make functions available globally for onclick handlers
